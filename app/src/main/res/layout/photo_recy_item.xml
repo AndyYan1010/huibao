@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:layout_width="100dp"
+                android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/img_add_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="3dp"
+        android:src="@drawable/add_picture"/>
+
+    <ImageView
+        android:id="@+id/img_delet"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="2dp"
+        android:src="@drawable/sh_icon_delete"/>
+
+    <TextView
+        android:id="@+id/tv_pro_uping"
+        android:layout_width="match_parent"
+        android:layout_height="11dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="正在上传"
+        android:textSize="10sp"
+        android:visibility="gone"/>
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 圆角 -->
+    <corners
+        android:radius="5dp"
+        /> <!-- 设置四个角的半径 -->
+    <!-- 填充 -->
+    <solid
+        android:color="@color/bottom_button_text_green"
+        />// shape的填充色
+
+    <!--<padding
+        android:bottom="5dp"
+    android:left="5dp"
+    android:right="5dp"
+    android:top="5dp"
+    />-->
+</shape>

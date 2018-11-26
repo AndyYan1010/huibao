@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 描边 -->
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/bottom_button_text_green"/> <!-- 定义描边的宽度和描边的颜色值 -->
+
+    <!-- 圆角 -->
+    <corners
+        android:radius="5dp"
+        /> <!-- 设置四个角的半径 -->
+
+
+</shape>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.example.win7.huibao.activity.JiankongActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar"/>
+
+            <com.ezvizuikit.open.EZUIPlayer
+                android:id="@+id/player_ui"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#FF000000">
+            </com.ezvizuikit.open.EZUIPlayer>
+
+            <Spinner
+                android:id="@+id/sp_camid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:minHeight="40dp"
+                android:spinnerMode="dialog">
+            </Spinner>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

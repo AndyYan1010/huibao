@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00BFFF</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimaryDark">#00BFFF</color>
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorAccent">#000000</color>
+    <color name="bottom_button_text_black">#000000</color>
+    <color name="bottom_button_text_blue">#1296DB</color>
+    <color name="bottom_button_text_green">#1AFA29</color>
+    <color name="bottom_button_text_gray">#999999</color>
+    <color name="indigo">#00A600</color>
+    <color name="white">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
+    <color name="split_line">#11112233</color>
+    <color name="text1">#59B29C</color>
+    <color name="text2">#333333</color>
+
+    <color name="color1">#F0F0F0</color>
+    <color name="color2">#FFFFFF</color>
+    <color name="color3">#B0B0B0</color>
+    <color name="color4">#666666</color>
+    <color name="color5">#57C5E8</color>
+
+    <!--mine-->
+    <color name="btn_pressed">#00A1DB</color>
+    <color name="btn_normal">#00ACFF</color>
+
+    <color name="black">#000000</color>
+    <color name="gray_ef">#EFEFEF</color>
+    <color name="vm_blue_38">#612384fe</color>
+    <color name="deepskyblue">#00BFFF</color>
+    <color name="red">#FF0000</color>
+
+    <!--橙色-->
+    <color name="vm_orange_100">#ffff5722</color>
+    <color name="vm_orange_87">#ddff5722</color>
+    <color name="vm_orange_54">#89ff5722</color>
+    <color name="vm_orange_38">#61ff5722</color>
+    <color name="vm_orange_12">#1eff5722</color>
+</resources>

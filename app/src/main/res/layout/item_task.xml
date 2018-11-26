@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_taskno"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:textSize="25sp"
+        android:layout_weight="1"
+        android:textColor="@color/bottom_button_text_black"/>
+
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_action_edit"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_vertical"/>
+</LinearLayout>
