@@ -70,8 +70,15 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
         String message = body.getMessage();
         if (!message.startsWith("{goodsId}")) {
             holder.mTvMsg.setText(message);
+            holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.word_black));
         } else {
-            holder.mTvMsg.setText("这是需审核任务单，单号：" + message.substring(9, message.length()) + "，\n请查收审核");
+            if (0 == holder.getItemViewType()) {
+                holder.mTvMsg.setText("这是需审核任务单，单号：" + message.substring(9, message.length()) + "，\n请查收审核");
+                holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.vm_orange_100));
+            } else {
+                holder.mTvMsg.setText("这是我发送的任务单，单号：" + message.substring(9, message.length()));
+                holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.word_black));
+            }
         }
         holder.mTvMsg.setOnClickListener(new View.OnClickListener() {
             @Override
