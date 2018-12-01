@@ -60,29 +60,6 @@ public class MsgAdapter extends BaseAdapter {
         } else {
             holder = (Holder) view.getTag();
         }
-        //        String path = list.get(i).getImagepath();
-        //        if (path == null) {
-        //            holder.iv_icon.setImageResource(R.drawable.me_light);
-        //        } else {
-        //            File file = new File(path);
-        //            if (file.exists()) {
-        //                Bitmap bm = BitmapFactory.decodeFile(path);
-        //                holder.iv_icon.setImageBitmap(bm);
-        //            } else {
-        //                holder.iv_icon.setImageResource(R.drawable.me_light);
-        //            }
-        //        }
-        //        holder.tv_nickname.setText(list.get(i).getNickname());
-        //        if (list.get(i).getLastmsg() == null) {
-        //            holder.tv_lastmsg.setText("");
-        //        } else {
-        //            holder.tv_lastmsg.setText(list.get(i).getLastmsg());
-        //        }
-        //        if (list.get(i).getTime() == null) {
-        //            holder.tv_time.setText("");
-        //        } else {
-        //            holder.tv_time.setText(list.get(i).getTime());
-        //        }
         final Msg emConversation = mEMConversationList.get(i);
         //聊天的对方的名称
         String userName = emConversation.getNickname();

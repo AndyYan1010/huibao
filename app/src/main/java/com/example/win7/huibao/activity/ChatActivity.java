@@ -44,9 +44,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     String          content;
     Toolbar         toolbar;
     LinearLayout    ll_chat, ll_bottom;
-    public static final int             SHOW_RESPONSE  = 0;
-    private             List<EMMessage> mEMMessageList = new ArrayList<>();
-    private MyChatAdapter mChatAdapter;
+    public static final int SHOW_RESPONSE = 0;
+    private List<EMMessage> mEMMessageList;
+    private MyChatAdapter   mChatAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             finish();
             return;
         }
+        mEMMessageList = new ArrayList<>();
         username = username.toLowerCase();
         toolbar.setTitle(nickname);
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -113,18 +114,18 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
             EMTextMessageBody body = (EMTextMessageBody) lastMessage.getBody();
             String message = body.getMessage();
-            if (!message.startsWith("{goodsId}")){
-                mEMMessageList.add(lastMessage);
-            }
-            for (int i =0;i<messageList.size();i++){
+            mEMMessageList.add(lastMessage);
+            //            if (!message.startsWith("{goodsId}")) {
+            //            }
+            for (int i = 0; i < messageList.size(); i++) {
                 EMMessage emMessage = messageList.get(i);
                 EMTextMessageBody body1 = (EMTextMessageBody) emMessage.getBody();
                 String message1 = body1.getMessage();
-                if (!message1.startsWith("{goodsId}")){
-                    mEMMessageList.add(messageList.get(i));
-                }
+                mEMMessageList.add(messageList.get(i));
+                //                if (!message1.startsWith("{goodsId}")) {
+                //                }
             }
-//            mEMMessageList.addAll(messageList);
+            //            mEMMessageList.addAll(messageList);
             Collections.reverse(mEMMessageList);
         } else {
             mEMMessageList.clear();
@@ -140,7 +141,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         ////        adapter.replaceAll(list);
         Utils.autoScrollView(ll_chat, ll_bottom);//弹出软键盘时滚动视图
         rcv_msg.setLayoutManager(new LinearLayoutManager(this));
-        mChatAdapter = new MyChatAdapter(mEMMessageList);
+        mChatAdapter = new MyChatAdapter(ChatActivity.this,mEMMessageList);
         rcv_msg.setAdapter(mChatAdapter);
         if (mEMMessageList.size() != 0) {
             rcv_msg.scrollToPosition(mEMMessageList.size() - 1);

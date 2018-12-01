@@ -1,5 +1,7 @@
 package com.example.win7.huibao.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.win7.huibao.R;
+import com.example.win7.huibao.activity.CheckActivity;
+import com.example.win7.huibao.util.ToastUtils;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.util.DateUtils;
@@ -26,9 +30,11 @@ import java.util.List;
  */
 
 public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHolder> {
+    private Context         mContext;
     private List<EMMessage> mEMMessageList;
 
-    public MyChatAdapter(List<EMMessage> EMMessageList) {
+    public MyChatAdapter(Context context, List<EMMessage> EMMessageList) {
+        mContext = context;
         mEMMessageList = EMMessageList;
     }
 
@@ -47,42 +53,59 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
     public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (viewType == 0) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_receiver, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_receiver, parent, false);
         } else if (viewType == 1) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_send, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_send, parent, false);
         }
         ChatViewHolder chatViewHolder = new ChatViewHolder(view);
         return chatViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ChatViewHolder holder, int position) {
+    public void onBindViewHolder(final ChatViewHolder holder, int position) {
         EMMessage emMessage = mEMMessageList.get(position);
         long msgTime = emMessage.getMsgTime();
         //需要将消息body转换为EMTextMessageBody
         EMTextMessageBody body = (EMTextMessageBody) emMessage.getBody();
         String message = body.getMessage();
-        holder.mTvMsg.setText(message);
+        if (!message.startsWith("{goodsId}")) {
+            holder.mTvMsg.setText(message);
+        } else {
+            holder.mTvMsg.setText("这是需审核任务单，单号：" + message.substring(9, message.length()) + "，\n请查收审核");
+        }
+        holder.mTvMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String orderID = String.valueOf(holder.mTvMsg.getText()).trim();
+                if (orderID.startsWith("这是需审核任务单")) {
+                    Intent chatIntent = new Intent(mContext, CheckActivity.class);
+                    chatIntent.putExtra("goodsId", orderID);
+                    mContext.startActivity(chatIntent);
+                } else {
+                    ToastUtils.showToast(mContext, "这是聊天消息，非审核信息，无需跳转");
+                }
+            }
+        });
 
         holder.mTvTime.setText(DateUtils.getTimestampString(new Date(msgTime)));
-        if (position==0){
+        if (position == 0) {
             holder.mTvTime.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             EMMessage preMessage = mEMMessageList.get(position - 1);
             long preMsgTime = preMessage.getMsgTime();
-            if (DateUtils.isCloseEnough(msgTime,preMsgTime)){
+            if (DateUtils.isCloseEnough(msgTime, preMsgTime)) {
                 holder.mTvTime.setVisibility(View.GONE);
-            }else{
+            } else {
                 holder.mTvTime.setVisibility(View.VISIBLE);
             }
         }
-        if (emMessage.direct()== EMMessage.Direct.SEND){
+        if (emMessage.direct() == EMMessage.Direct.SEND) {
             switch (emMessage.status()) {
                 case INPROGRESS:
                     holder.mIvState.setVisibility(View.VISIBLE);
                     holder.mIvState.setImageResource(R.drawable.msg_state_animation);
                     AnimationDrawable drawable = (AnimationDrawable) holder.mIvState.getDrawable();
-                    if (drawable.isRunning()){
+                    if (drawable.isRunning()) {
                         drawable.stop();
                     }
                     drawable.start();

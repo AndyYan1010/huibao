@@ -27,6 +27,19 @@
     <color name="btn_normal">#00ACFF</color>
 
     <color name="black">#000000</color>
+    <color name="vm_black_100">#ff212121</color>
+    <color name="vm_black_87">#dd212121</color>
+    <color name="vm_black_54">#89212121</color>
+    <color name="vm_black_38">#61212121</color>
+    <color name="vm_black_12">#1e212121</color>
+    <color name="tr_black">#cc000000</color>
+    <color name="lin_black">#1f1724</color>
+    <!--导航-->
+    <color name="title_black">#2A2A2A</color>
+    <!--深黑字体色 2A2A2A-->
+    <color name="word_black">#2A2A2A</color>
+    <!--文字灰色-->
+    <color name="word_gray">#7A7A7A</color>
     <color name="gray_ef">#EFEFEF</color>
     <color name="vm_blue_38">#612384fe</color>
     <color name="deepskyblue">#00BFFF</color>
