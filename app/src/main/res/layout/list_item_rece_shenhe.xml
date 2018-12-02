@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="match_parent"
               android:orientation="vertical">
 
     <TextView
@@ -28,22 +28,28 @@
 
         <RelativeLayout
             android:id="@+id/rlt_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:background="@drawable/adi">
+
+            <ImageView
+                android:id="@+id/img_order"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/order_check"/>
 
             <TextView
                 android:id="@+id/tv_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="你好，今晚一起游泳！"
-                android:textColor="@color/word_black"/>
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="50dp"
+                android:layout_toRightOf="@+id/img_order"
+                android:text="15652626"
+                android:textColor="@color/vm_orange_87"/>
         </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

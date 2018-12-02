@@ -27,24 +27,29 @@
             android:layout_margin="3dp"
             android:src="@mipmap/avatar3"/>
 
-        <TextView
-            android:id="@+id/tv_msg"
+        <RelativeLayout
+            android:id="@+id/rlt_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@id/iv_avatar"
-            android:background="@drawable/send_msg_normal"
-            android:gravity="center"
-            android:text="今晚一起游泳！"
-            android:textColor="@color/word_black"/>
+            android:background="@drawable/send_msg_normal">
+
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今晚一起游泳！"
+                android:textColor="@color/word_black"/>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_msg"
+            android:layout_toLeftOf="@id/rlt_order"
             android:src="@drawable/msg_state_animation"/>
 
     </RelativeLayout>

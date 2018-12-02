@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.win7.huibao.R;
@@ -46,7 +47,16 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
     @Override
     public int getItemViewType(int position) {
         EMMessage emMessage = mEMMessageList.get(position);
-        return emMessage.direct() == EMMessage.Direct.RECEIVE ? 0 : 1;
+        if (emMessage.direct() == EMMessage.Direct.RECEIVE) {
+            String message = ((EMTextMessageBody) emMessage.getBody()).getMessage();
+            if (!message.startsWith("{goodsId}")) {
+                return 0;
+            } else {
+                return 2;
+            }
+        } else {
+            return 1;
+        }
     }
 
     @Override
@@ -56,6 +66,8 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
             view = LayoutInflater.from(mContext).inflate(R.layout.list_item_receiver, parent, false);
         } else if (viewType == 1) {
             view = LayoutInflater.from(mContext).inflate(R.layout.list_item_send, parent, false);
+        } else if (viewType == 2) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_rece_shenhe, parent, false);
         }
         ChatViewHolder chatViewHolder = new ChatViewHolder(view);
         return chatViewHolder;
@@ -73,14 +85,14 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
             holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.word_black));
         } else {
             if (0 == holder.getItemViewType()) {
-                holder.mTvMsg.setText("这是需审核任务单，单号：" + message.substring(9, message.length()) + "，\n请查收审核");
+                holder.mTvMsg.setText("这是需审核任务单，单号：" + message.substring(9, message.length()) + "，\n请点击审核");
                 holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.vm_orange_100));
             } else {
-                holder.mTvMsg.setText("这是我发送的任务单，单号：" + message.substring(9, message.length()));
+                holder.mTvMsg.setText("***这是我发送的审核单，单号：" + message.substring(9, message.length()));
                 holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.word_black));
             }
         }
-        holder.mTvMsg.setOnClickListener(new View.OnClickListener() {
+        holder.rlt_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String orderID = String.valueOf(holder.mTvMsg.getText()).trim();
@@ -129,13 +141,14 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
-
-        TextView  mTvTime;
-        TextView  mTvMsg;
-        ImageView mIvState;
+        RelativeLayout rlt_order;
+        TextView       mTvTime;
+        TextView       mTvMsg;
+        ImageView      mIvState;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
+            rlt_order = itemView.findViewById(R.id.rlt_order);
             mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
             mTvMsg = (TextView) itemView.findViewById(R.id.tv_msg);
             mIvState = (ImageView) itemView.findViewById(R.id.iv_state);
