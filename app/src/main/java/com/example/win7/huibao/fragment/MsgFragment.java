@@ -222,13 +222,13 @@ public class MsgFragment extends Fragment {
                 if (userid.equals(conversationId)) {
                     EMTextMessageBody emMessageBody = (EMTextMessageBody) emConversation.getLastMessage().getBody();
                     String message = emMessageBody.getMessage();
-                    if (!message.startsWith("{goodsId}")){
-                        long msgTime = emConversation.getLastMessage().getMsgTime();
-                        int unreadMsgCount = emConversation.getUnreadMsgCount();
-                        msg.setLastmsg(message);
-                        msg.setLastMsgTime(msgTime);
-                        msg.setUnreadMsgCount(unreadMsgCount);
-                    }
+                    long msgTime = emConversation.getLastMessage().getMsgTime();
+                    int unreadMsgCount = emConversation.getUnreadMsgCount();
+                    msg.setLastmsg(message);
+                    msg.setLastMsgTime(msgTime);
+                    msg.setUnreadMsgCount(unreadMsgCount);
+//                    if (!message.startsWith("{goodsId}")){
+//                    }
                 }
             }
             mEMConversationList.add(msg);
