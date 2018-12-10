@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity {
         String fgroup = sp.getString("fgroup", "");
         et_username.setText(fname);
         Utils.autoScrollView(ll_login, btn_login);//弹出软键盘时滚动视图
+        //登录环信
         loginToHX(fname, fgroup);
     }
 
