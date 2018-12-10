@@ -25,6 +25,7 @@ import com.example.win7.huibao.activity.MainActivity;
 import com.example.win7.huibao.adapter.MessageListenerAdapter;
 import com.example.win7.huibao.eventMessege.OnContactUpdateEvent;
 import com.example.win7.huibao.util.Consts;
+import com.example.win7.huibao.util.DBUtils;
 import com.example.win7.huibao.util.ThreadUtils;
 import com.example.win7.huibao.util.ToastUtils;
 import com.hyphenate.EMConnectionListener;
@@ -55,18 +56,19 @@ public class YApplication extends Application {
     public static String                  fname             = "";
     public static String                  fgroup            = "";
     public static int                     flag              = -1;//判断是否被回收
-    private SoundPool mSoundPool;
-    private int       mDuanSound;
-    private int       mYuluSound;
+    public static boolean   isHuanXinLogin;
+    private       SoundPool mSoundPool;
+    private       int       mDuanSound;
+    private       int       mYuluSound;
     private int markExamine = 10;
     SharedPreferences sp;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        sp = getSharedPreferences("token", MODE_PRIVATE);
-//        String fname = sp.getString("fname", "");
-//        YApplication.fname = fname;
+        //        sp = getSharedPreferences("token", MODE_PRIVATE);
+        //        String fname = sp.getString("fname", "");
+        //        YApplication.fname = fname;
         initHuanxin();
         initSoundPool();
     }
@@ -93,6 +95,7 @@ public class YApplication extends Application {
             // 则此application::onCreate 是被service 调用的，直接返回
             return;
         }
+        DBUtils.initDB(this);
         //初始化
         EMClient.getInstance().init(this, options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源

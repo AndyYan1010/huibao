@@ -29,11 +29,10 @@
         android:textSize="40sp"
         android:visibility="gone"/>
 
-    <com.itheima.qq15.widget.SlideBar
+    <com.example.win7.huibao.view.SlideBar
         android:id="@+id/slideBar"
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"/>
-
 
 </RelativeLayout>

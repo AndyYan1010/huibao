@@ -6,17 +6,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.win7.huibao.R;
 import com.example.win7.huibao.activity.ChatActivity;
+import com.example.win7.huibao.activity.MailListActivity;
 import com.example.win7.huibao.adapter.MsgAdapter;
 import com.example.win7.huibao.entity.Msg;
 import com.example.win7.huibao.util.Consts;
@@ -46,7 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class MsgFragment extends Fragment {
+public class MsgFragment extends Fragment implements View.OnClickListener {
     Context            mContext;
     View               view;
     ListView           lv_msg;
@@ -54,9 +54,9 @@ public class MsgFragment extends Fragment {
     MsgAdapter         adapter;
     List<Msg>          list;
     CustomProgress     dialog;
-    Toolbar            toolbar;
-    private List<Msg> mEMConversationList = new ArrayList<>();
-    private static int REQUEST_CODE =10086;
+    ImageView          img_cont;
+    private        List<Msg> mEMConversationList = new ArrayList<>();
+    private static int       REQUEST_CODE        = 10086;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,12 +70,8 @@ public class MsgFragment extends Fragment {
     }
 
     protected void setTool() {
-        toolbar = (Toolbar) view.findViewById(R.id.id_toolbar);
-        toolbar.setTitle(R.string.msg);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        img_cont = (ImageView) view.findViewById(R.id.img_cont);
+        img_cont.setOnClickListener(this);
     }
 
     protected void setViews() {
@@ -94,8 +90,8 @@ public class MsgFragment extends Fragment {
                 //                intent.putExtra("name", list.get(i).getUsername());
                 intent.putExtra("nickname", mEMConversationList.get(i).getNickname());
                 intent.putExtra("name", mEMConversationList.get(i).getUsername());
-//                startActivity(intent);
-                startActivityForResult(intent,REQUEST_CODE);
+                //                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -107,6 +103,15 @@ public class MsgFragment extends Fragment {
             }
         });
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_cont://跳转联系人列表 MailListFragment
+                startActivity(new Intent(getContext(), MailListActivity.class));
+                break;
+        }
     }
 
     class NTask extends AsyncTask<Void, String, String> {
@@ -218,7 +223,7 @@ public class MsgFragment extends Fragment {
             String userid = msg.getUsername().toLowerCase();
             String nickname = msg.getNickname();
             for (EMConversation emConversation : values) {
-                String conversationId = emConversation.conversationId();
+                String conversationId = emConversation.conversationId().toLowerCase();
                 if (userid.equals(conversationId)) {
                     EMTextMessageBody emMessageBody = (EMTextMessageBody) emConversation.getLastMessage().getBody();
                     String message = emMessageBody.getMessage();
@@ -227,8 +232,6 @@ public class MsgFragment extends Fragment {
                     msg.setLastmsg(message);
                     msg.setLastMsgTime(msgTime);
                     msg.setUnreadMsgCount(unreadMsgCount);
-//                    if (!message.startsWith("{goodsId}")){
-//                    }
                 }
             }
             mEMConversationList.add(msg);
@@ -269,7 +272,7 @@ public class MsgFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (REQUEST_CODE==requestCode){
+        if (REQUEST_CODE == requestCode) {
             new NTask().execute();
         }
     }

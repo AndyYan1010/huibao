@@ -16,6 +16,7 @@ import com.example.win7.huibao.R;
 import com.example.win7.huibao.YApplication;
 import com.example.win7.huibao.util.Consts;
 import com.example.win7.huibao.util.ThreadUtils;
+import com.example.win7.huibao.util.ToastUtils;
 import com.example.win7.huibao.util.Utils;
 import com.example.win7.huibao.view.CustomProgress;
 import com.hyphenate.EMCallBack;
@@ -55,6 +56,10 @@ public class LoginActivity extends BaseActivity {
         String fgroup = sp.getString("fgroup", "");
         et_username.setText(fname);
         Utils.autoScrollView(ll_login, btn_login);//弹出软键盘时滚动视图
+        loginToHX(fname, fgroup);
+    }
+
+    private void loginToHX(String fname, String fgroup) {
         if (null != sp && !"".equals(fname) && null != fgroup && !"".equals(fgroup)) {
             YApplication.fname = fname;
             YApplication.fgroup = fgroup;
@@ -64,6 +69,7 @@ public class LoginActivity extends BaseActivity {
                 public void onSuccess() {
                     EMClient.getInstance().groupManager().loadAllGroups();
                     EMClient.getInstance().chatManager().loadAllConversations();
+                    ToastUtils.showToast(LoginActivity.this, "hx登录成功");
                     Log.d("main_older", "登录聊天服务器成功！");
                 }
 
@@ -197,6 +203,7 @@ public class LoginActivity extends BaseActivity {
                         EMClient.getInstance().groupManager().loadAllGroups();
                         EMClient.getInstance().chatManager().loadAllConversations();
                         Log.d("main_older", "登录聊天服务器成功！");
+                        YApplication.isHuanXinLogin = true;
                     }
 
                     @Override
@@ -207,6 +214,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onError(int code, String message) {
                         Log.d("main_older", "登录聊天服务器失败！");
+                        YApplication.isHuanXinLogin = false;
                     }
                 });
                 //保存用户名，用户组

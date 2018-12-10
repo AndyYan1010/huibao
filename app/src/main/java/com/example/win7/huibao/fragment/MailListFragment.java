@@ -43,8 +43,7 @@ public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private List<String> contactList = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_mail_list, container, false);
         initView();
         initData();
