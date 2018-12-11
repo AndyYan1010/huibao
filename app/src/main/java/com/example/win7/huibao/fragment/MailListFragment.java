@@ -1,5 +1,6 @@
 package com.example.win7.huibao.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -7,8 +8,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.win7.huibao.R;
+import com.example.win7.huibao.activity.ChatActivity;
 import com.example.win7.huibao.adapter.ContactAdapter;
 import com.example.win7.huibao.eventMessege.OnContactUpdateEvent;
 import com.example.win7.huibao.util.DBUtils;
@@ -36,8 +39,9 @@ import java.util.List;
  * @更新描述 ${TODO}
  */
 
-public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ContactAdapter.OnItemClickListener {
+public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ContactAdapter.OnItemClickListener, View.OnClickListener {
     private View           view;
+    private ImageView      img_back;
     private ContactLayout  mContactLayout;
     private ContactAdapter mContactAdapter;
     private List<String> contactList = new ArrayList<>();
@@ -52,10 +56,12 @@ public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void initView() {
         mContactLayout = (ContactLayout) view.findViewById(R.id.contactLayout);
+        img_back = (ImageView) view.findViewById(R.id.img_back);
     }
 
     private void initData() {
         mContactLayout.setOnRefreshListener(this);
+        mContactLayout.setOnClickListener(this);
         /**
          * 初始化联系人界面
          * 1. 首先访问本地的缓存联系人
@@ -92,7 +98,11 @@ public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnR
                             return o1.compareTo(o2);
                         }
                     });
-                    //更新本地的缓存，
+
+                    //new NTask(currentUser, contactsFromServer).execute();
+
+
+                    //更新本地的缓存
                     DBUtils.updateContacts(currentUser, contactsFromServer);
                     contactList.clear();
                     contactList.addAll(contactsFromServer);
@@ -151,7 +161,11 @@ public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onItemClick(String contact, int position) {
         //跳转聊天界面//携带contact
-
+        Intent intent = new Intent(getContext(), ChatActivity.class);
+        intent.putExtra("nickname", contact);
+        intent.putExtra("name", contact);
+        startActivity(intent);
+        //        startActivityForResult(intent, REQUEST_CODE);
     }
 
     public void deleteContact(final String contact) {
@@ -197,4 +211,157 @@ public class MailListFragment extends Fragment implements SwipeRefreshLayout.OnR
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                getActivity().finish();
+                break;
+        }
+    }
+
+    //    private List<Msg>      list;
+    //    private CustomProgress dialog;
+
+    //    class NTask extends AsyncTask<Void, String, String> {
+    //        private String       currentUser;
+    //        private List<String> contactsFromServer;
+    //
+    //        public NTask(String currentUser, List<String> contactsFromServer) {
+    //            this.currentUser = currentUser;
+    //            this.contactsFromServer = contactsFromServer;
+    //        }
+    //
+    //        @Override
+    //        protected void onPreExecute() {
+    //            if (null == list) {
+    //                list = new ArrayList<>();
+    //            } else {
+    //                list.clear();
+    //            }
+    //            ThreadUtils.runOnMainThread(new Runnable() {
+    //                @Override
+    //                public void run() {
+    //                    dialog = CustomProgress.show(getContext(), "加载中...", true, null);
+    //                }
+    //            });
+    //            super.onPreExecute();
+    //        }
+    //
+    //        @Override
+    //        protected String doInBackground(Void... voids) {
+    //            try {
+    //                List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
+    //                String s = "(";
+    //                for (String username : usernames) {
+    //                    s = s + "'" + username + "',";
+    //                }
+    //                s = s.substring(0, s.length() - 1);
+    //                s = s + ")";
+    //                Log.i("拼接的数据集", s + "=================================");
+    //
+    //                // 命名空间
+    //                String nameSpace = "http://tempuri.org/";
+    //                // 调用的方法名称
+    //                String methodName = "JA_select";
+    //                // EndPoint
+    //                String endPoint = Consts.ENDPOINT;
+    //                // SOAP Action
+    //                String soapAction = "http://tempuri.org/JA_select";
+    //
+    //                // 指定WebService的命名空间和调用的方法名
+    //                SoapObject rpc = new SoapObject(nameSpace, methodName);
+    //
+    //                // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+    //                Log.i("昵称查询语句", "select a.fname from t_emp a inner join t_user d on a.fitemid=b.fempid where d.fname in" + s + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    //                rpc.addProperty("FSql", "select a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+    //                rpc.addProperty("FTable", "t_user");
+    //
+    //                // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
+    //                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER10);
+    //
+    //                envelope.bodyOut = rpc;
+    //                // 设置是否调用的是dotNet开发的WebService
+    //                envelope.dotNet = true;
+    //                // 等价于envelope.bodyOut = rpc;
+    //                envelope.setOutputSoapObject(rpc);
+    //
+    //                HttpTransportSE transport = new HttpTransportSE(endPoint);
+    //                // 调用WebService
+    //                transport.call(soapAction, envelope);
+    //                // 获取返回的数据
+    //                SoapObject object = (SoapObject) envelope.bodyIn;
+    //
+    //                // 获取返回的结果
+    //                Log.i("返回结果", object.getProperty(0).toString() + "=========================");
+    //                String result = object.getProperty(0).toString();
+    //                Document doc = null;
+    //
+    //                try {
+    //                    doc = DocumentHelper.parseText(result); // 将字符串转为XML
+    //                    Element rootElt = doc.getRootElement(); // 获取根节点
+    //                    Iterator iter = rootElt.elementIterator("Cust"); // 获取根节点下的子节点head
+    //
+    //                    // 遍历head节点
+    //                    while (iter.hasNext()) {
+    //                        Element recordEle = (Element) iter.next();
+    //                        Msg msg = new Msg();
+    //                        msg.setNickname(recordEle.elementTextTrim("fname"));
+    //                        msg.setUsername(recordEle.elementTextTrim("name"));
+    //                        list.add(msg);
+    //                    }
+    //                } catch (Exception e) {
+    //                    e.printStackTrace();
+    //                }
+    //            } catch (Exception e) {
+    //                e.printStackTrace();
+    //            }
+    //            return null;
+    //        }
+    //
+    //        @Override
+    //        protected void onPostExecute(String s) {
+    //            dialog.dismiss();
+    //            contactsFromServer.clear();
+    //            for (Msg msg : list) {
+    //                contactsFromServer.add(msg.getNickname());
+    //            }
+    //            getAllChatInfo(contactsFromServer);
+    //            //更新本地的缓存
+    //            DBUtils.updateContacts(currentUser, contactsFromServer);
+    //            contactList.clear();
+    //            contactList.addAll(contactsFromServer);
+    //            //通知View刷新UI
+    //            ThreadUtils.runOnMainThread(new Runnable() {
+    //                @Override
+    //                public void run() {
+    //                    updateContacts(true, null);
+    //                }
+    //            });
+    //            super.onPostExecute(s);
+    //        }
+    //    }
+    //
+    //    private final static Comparator<Object> CHINA_COMPARE = Collator.getInstance(java.util.Locale.CHINA);
+    //
+    //    private void getAllChatInfo(List<String> list) {
+    //        /**
+    //         * 排序，字母小的在最上面(字母排序)
+    //         */
+    //        Collections.sort(list, CHINA_COMPARE);
+    //    }
+
+    //    public void listSortByName1() {
+    //        Collections.sort(list, new Comparator<Msg>() {
+    //            @Override
+    //            public int compare(Msg o1, Msg o2) {
+    //                return Collator.getInstance(Locale.CHINESE).compare(o1.getName(), o2.getName());
+    //            }
+    //        });
+    //
+    //        for (String testEntity : list) {
+    //            System.out.println(testEntity.toString());
+    //        }
+    //    }
 }

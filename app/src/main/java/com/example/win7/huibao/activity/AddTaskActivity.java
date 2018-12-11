@@ -1043,6 +1043,7 @@ public class AddTaskActivity extends BaseActivity {
     private void sendMessegeToShenhe(String msg, String username) {
         EMMessage emMessage = EMMessage.createTxtSendMessage(msg, username);
         emMessage.setStatus(EMMessage.Status.INPROGRESS);
+//        emMessage.setAttribute("nickName",);
         emMessage.setMessageStatusCallback(new CallBackListener() {
             @Override
             public void onMainSuccess() {

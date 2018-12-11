@@ -148,7 +148,8 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
 
                 // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
                 Log.i("昵称查询语句", "select a.fname from t_emp a inner join t_user d on a.fitemid=b.fempid where d.fname in" + s + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                rpc.addProperty("FSql", "select a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
+                rpc.addProperty("FSql", "select a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+                //                rpc.addProperty("FSql", "select a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
                 rpc.addProperty("FTable", "t_user");
 
                 // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
@@ -185,6 +186,7 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
                     while (iter.hasNext()) {
                         Element recordEle = (Element) iter.next();
                         Msg msg = new Msg();
+                        //TODO:需要用户说明
                         msg.setNickname(recordEle.elementTextTrim("fname"));
                         msg.setUsername(recordEle.elementTextTrim("name"));
                         list.add(msg);

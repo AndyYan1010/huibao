@@ -175,20 +175,25 @@ public class LoginActivity extends BaseActivity {
             SoapObject object = (SoapObject) envelope.bodyIn;
 
             // 获取返回的结果
-            if (null != object) {
-                Log.i("返回结果", object.getProperty(0).toString() + "=========================");
-                String result = object.getProperty(0).toString();
-                if (result.substring(0, 1).equals("0")) {
-                    YApplication.fname = name;
-                    YApplication.fgroup = result.replace("0", "");
-                    return "0";
-                } else if (result.equals("1")) {
-                    return "1";
-                } else if (result.equals("2")) {
-                    return "2";
-                } else if (result.equals("3")) {
-                    return "3";
+            try {
+                if (null != object) {
+                    Log.i("返回结果", object.getProperty(0).toString() + "=========================");
+                    String result = object.getProperty(0).toString();//0销售-总部/X001   0销售-总部
+                    if (result.substring(0, 1).equals("0")) {
+                        YApplication.fname = name;
+                        YApplication.fgroup = result.substring(1);
+                        //                        YApplication.fgroup = result.replace("0", "");
+                        return "0";
+                    } else if (result.equals("1")) {
+                        return "1";
+                    } else if (result.equals("2")) {
+                        return "2";
+                    } else if (result.equals("3")) {
+                        return "3";
+                    }
                 }
+            } catch (Exception e) {
+                return "4";
             }
             return "4";
         }
@@ -198,7 +203,7 @@ public class LoginActivity extends BaseActivity {
             dialog.dismiss();
             if (s.equals("0")) {
                 //登录环信聊天服务器
-                EMClient.getInstance().login(et_username.getText().toString(), "123", new EMCallBack() {//回调
+                EMClient.getInstance().login(YApplication.fname, "123", new EMCallBack() {//回调
                     @Override
                     public void onSuccess() {
                         EMClient.getInstance().groupManager().loadAllGroups();
