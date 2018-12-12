@@ -255,7 +255,7 @@ public class TaskFragment extends Fragment {
                         }
                         if(group.contains("员")||group.equals(outeruser)){
                             sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                    "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') order by a.fid desc";
+                                    "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') order by a.fid desc";
                         }
                         if(group.contains("总部")) {
                             String grouphead = group.substring(0,2);
@@ -276,7 +276,7 @@ public class TaskFragment extends Fragment {
                             }
                             if(group.contains("员")||group.equals(outeruser)){
                                 sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') and a.fbase11 ="+tool.getId()+" order by a.fid desc";
+                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') and a.fbase11 ="+tool.getId()+" order by a.fid desc";
                             }
                             if(group.contains("总部")){
                                 String grouphead = group.substring(0,2);
@@ -300,7 +300,7 @@ public class TaskFragment extends Fragment {
                             }
                             if(group.contains("员")||group.equals(outeruser)){
                                 sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') and a.fbase12 ="+tool.getId()+" order by a.fid desc";
+                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') and a.fbase12 ="+tool.getId()+" order by a.fid desc";
                             }
                             if(group.contains("总部")){
                                 String grouphead = group.substring(0,2);
@@ -324,7 +324,7 @@ public class TaskFragment extends Fragment {
                             }
                             if(group.contains("员")||group.equals(outeruser)){
                                 sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') and a.fbase1 ="+tool.getId()+" order by a.fid desc";
+                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') and a.fbase1 ="+tool.getId()+" order by a.fid desc";
                             }
                             if(group.contains("总部")){
                                 String grouphead = group.substring(0,2);
@@ -348,7 +348,7 @@ public class TaskFragment extends Fragment {
                             }
                             if(group.contains("员")||group.equals(outeruser)){
                                 sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') and a.fbase4 ="+tool.getId()+" order by a.fid desc";
+                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') and a.fbase4 ="+tool.getId()+" order by a.fid desc";
                             }
                             if(group.contains("总部")){
                                 String grouphead = group.substring(0,2);
@@ -372,7 +372,7 @@ public class TaskFragment extends Fragment {
                             }
                             if(group.contains("员")||group.equals(outeruser)){
                                 sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') and a.fbase10 ="+tool.getId()+" order by a.fid desc";
+                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') and a.fbase10 ="+tool.getId()+" order by a.fid desc";
                             }
                             if(group.contains("总部")){
                                 String grouphead = group.substring(0,2);
@@ -396,7 +396,7 @@ public class TaskFragment extends Fragment {
                             }
                             if(group.contains("员")||group.equals(outeruser)){
                                 sql = "select distinct a.fid,a.fbillno from t_BOS200000000 a left join t_BOS200000000Entry2 b on a.fid=b.fid where b.fbase15 = (" +
-                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.fname+"') and a.fbase15 ="+tool.getId()+" order by a.fid desc";
+                                        "select b.fitemid from t_user a left join t_emp b on a.fempid=b.fitemid where a.fname='"+YApplication.username+"') and a.fbase15 ="+tool.getId()+" order by a.fid desc";
                             }
                             if(group.contains("总部")){
                                 String grouphead = group.substring(0,2);

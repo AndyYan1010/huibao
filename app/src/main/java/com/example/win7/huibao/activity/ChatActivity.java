@@ -69,7 +69,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     protected void setTool() {
         nickname = getIntent().getStringExtra("nickname");
-        username = getIntent().getStringExtra("name");
+        username = getIntent().getStringExtra("name");//003
         if (TextUtils.isEmpty(username)) {
             ToastUtils.showToast(this, "stub,请携带username参数！");
             finish();

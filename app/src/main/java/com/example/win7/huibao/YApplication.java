@@ -54,6 +54,7 @@ import java.util.List;
 public class YApplication extends Application {
     public static ArrayList<BaseActivity> mBaseActivityList = new ArrayList<BaseActivity>();
     public static String                  fname             = "";
+    public static String                  username          = "";
     public static String                  fgroup            = "";
     public static int                     flag              = -1;//判断是否被回收
     public static boolean   isHuanXinLogin;

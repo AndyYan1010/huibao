@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.win7.huibao.R;
+import com.example.win7.huibao.YApplication;
 import com.example.win7.huibao.activity.ChatActivity;
 import com.example.win7.huibao.activity.MailListActivity;
 import com.example.win7.huibao.adapter.MsgAdapter;
@@ -79,6 +80,9 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
         srl_msg = (SwipeRefreshLayout) view.findViewById(R.id.srl_msg);
         list = new ArrayList<>();
         new NTask().execute();
+        //获取用户名称
+        new MTask().execute();
+        img_cont.setVisibility(View.GONE);
     }
 
     protected void setListeners() {
@@ -148,7 +152,7 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
 
                 // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
                 Log.i("昵称查询语句", "select a.fname from t_emp a inner join t_user d on a.fitemid=b.fempid where d.fname in" + s + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                rpc.addProperty("FSql", "select a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+                rpc.addProperty("FSql", "select a.fname,b.FDescription name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
                 //                rpc.addProperty("FSql", "select a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
                 rpc.addProperty("FTable", "t_user");
 
@@ -187,8 +191,8 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
                         Element recordEle = (Element) iter.next();
                         Msg msg = new Msg();
                         //TODO:需要用户说明
-                        msg.setNickname(recordEle.elementTextTrim("fname"));
-                        msg.setUsername(recordEle.elementTextTrim("name"));
+                        msg.setNickname(recordEle.elementTextTrim("fname"));//wangshuai
+                        msg.setUsername(recordEle.elementTextTrim("name"));//007
                         list.add(msg);
                     }
                     //获取对应的会话列表,放入mEMConversationList集合
@@ -276,6 +280,87 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CODE == requestCode) {
             new NTask().execute();
+        }
+    }
+
+    class MTask extends AsyncTask<Void, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            // 命名空间
+            String nameSpace = "http://tempuri.org/";
+            // 调用的方法名称
+            String methodName = "JA_select";
+            // EndPoint
+            String endPoint = Consts.ENDPOINT;
+            // SOAP Action
+            String soapAction = "http://tempuri.org/JA_select";
+
+            // 指定WebService的命名空间和调用的方法名
+            SoapObject rpc = new SoapObject(nameSpace, methodName);
+
+            // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+            rpc.addProperty("FSql", "select a.fname username,b.fname depart,c.FName company,c.F_101 detail,c.f_102 lately,e.f_102 zhidu from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 left join t_Item_3006 e on e.F_101=b.FItemID where FDescription='" + YApplication.fname + "'");
+            rpc.addProperty("FTable", "t_user");
+
+            // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER10);
+
+            envelope.bodyOut = rpc;
+            // 设置是否调用的是dotNet开发的WebService
+            envelope.dotNet = true;
+            // 等价于envelope.bodyOut = rpc;
+            envelope.setOutputSoapObject(rpc);
+
+            HttpTransportSE transport = new HttpTransportSE(endPoint);
+            try {
+                // 调用WebService
+                transport.call(soapAction, envelope);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i("MeFragment", e.toString() + "==================================");
+            }
+
+            // 获取返回的数据
+            SoapObject object = (SoapObject) envelope.bodyIn;
+
+            // 获取返回的结果
+            if (null != object) {
+                Log.i("返回结果", object.getProperty(0).toString() + "=========================");
+                String result = object.getProperty(0).toString();
+                Document doc = null;
+
+                try {
+                    doc = DocumentHelper.parseText(result); // 将字符串转为XML
+
+                    Element rootElt = doc.getRootElement(); // 获取根节点
+
+                    System.out.println("根节点：" + rootElt.getName()); // 拿到根节点的名称
+
+
+                    Iterator iter = rootElt.elementIterator("Cust"); // 获取根节点下的子节点head
+
+                    // 遍历head节点
+                    while (iter.hasNext()) {
+                        Element recordEle = (Element) iter.next();
+                        YApplication.username = recordEle.elementTextTrim("username"); // 拿到head节点下的子节点title值
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return YApplication.username + ";QAQ";
+            } else {
+                return "";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 }

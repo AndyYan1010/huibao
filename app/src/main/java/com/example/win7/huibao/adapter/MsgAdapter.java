@@ -62,12 +62,12 @@ public class MsgAdapter extends BaseAdapter {
         }
         final Msg emConversation = mEMConversationList.get(i);
         //聊天的对方的名称
-        String userName = emConversation.getNickname();
+        String nickName = emConversation.getNickname();
         int unreadMsgCount = emConversation.getUnreadMsgCount();
         String lastMessage = emConversation.getLastmsg();
         long msgTime = emConversation.getLastMsgTime();
 
-        holder.tv_nickname.setText(userName);
+        holder.tv_nickname.setText(nickName);
         holder.tv_lastmsg.setText(lastMessage);
         if (msgTime == 0) {
             holder.tv_time.setVisibility(View.INVISIBLE);

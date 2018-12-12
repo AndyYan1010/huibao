@@ -857,7 +857,7 @@ public class AddTaskActivity extends BaseActivity {
                     return;
                 }
                 final EditText et = new EditText(AddTaskActivity.this);
-                new AlertDialog.Builder(AddTaskActivity.this).setTitle("物料").setView(et)
+                new AlertDialog.Builder(AddTaskActivity.this).setTitle("内容").setView(et)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -1043,7 +1043,7 @@ public class AddTaskActivity extends BaseActivity {
     private void sendMessegeToShenhe(String msg, String username) {
         EMMessage emMessage = EMMessage.createTxtSendMessage(msg, username);
         emMessage.setStatus(EMMessage.Status.INPROGRESS);
-//        emMessage.setAttribute("nickName",);
+        //        emMessage.setAttribute("nickName",);
         emMessage.setMessageStatusCallback(new CallBackListener() {
             @Override
             public void onMainSuccess() {
@@ -1080,7 +1080,7 @@ public class AddTaskActivity extends BaseActivity {
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-            rpc.addProperty("FSql", "select a.fname username,a.fitemid responid,b.fname depart,b.fitemid departid,c.FName company,c.fitemid companyid from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 where d.FName='" + YApplication.fname + "'");
+            rpc.addProperty("FSql", "select a.fname username,a.fitemid responid,b.fname depart,b.fitemid departid,c.FName company,c.fitemid companyid from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 where d.FName='" + YApplication.username + "'");
             rpc.addProperty("FTable", "t_user");
 
             // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
@@ -1678,7 +1678,7 @@ public class AddTaskActivity extends BaseActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(AddTaskActivity.this, android.R.layout.simple_list_item_1, strList1);
             lv.setAdapter(adapter);
             final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this).setView(lv)
-                    .setTitle(R.string.item).show();
+                    .setTitle("内容:").show();
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -2571,7 +2571,9 @@ public class AddTaskActivity extends BaseActivity {
 
                 // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
                 Log.i("昵称查询语句", "select a.fname from t_emp a inner join t_user d on a.fitemid=b.fempid where d.fname in" + s + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
+                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.FDescription name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+                //                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+                //                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
                 rpc.addProperty("FTable", "t_user");
 
                 // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
@@ -2873,6 +2875,9 @@ public class AddTaskActivity extends BaseActivity {
                 // 获取返回的结果
                 String result = object.getProperty(0).toString();
                 //获取返回的图片网络地址
+                if (null != result && result.startsWith(",")) {
+                    result.substring(1);
+                }
                 mUrlList.set(n, result);
                 return 5;
             } catch (Exception e) {

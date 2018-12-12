@@ -60,11 +60,11 @@ public class MeFragment extends Fragment {
     private List<MainMenuEntity> list    = new ArrayList<MainMenuEntity>();
     MainMenuEntity data;
 
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//    }
+    //    @Override
+    //    public void onCreate(@Nullable Bundle savedInstanceState) {
+    //        super.onCreate(savedInstanceState);
+    //        setHasOptionsMenu(true);
+    //    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,24 +84,24 @@ public class MeFragment extends Fragment {
     }
 
     protected void setTool() {
-//        toolbar = (Toolbar) view.findViewById(R.id.id_toolbar);
-//        toolbar.setTitle(getResources().getString(R.string.me));
-//        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-//
-//        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-//
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.action_settings:
-//                        startActivity(new Intent(mContext, SettingsActivity.class));
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
+        //        toolbar = (Toolbar) view.findViewById(R.id.id_toolbar);
+        //        toolbar.setTitle(getResources().getString(R.string.me));
+        //        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        //
+        //        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        //        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        //
+        //        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        //            @Override
+        //            public boolean onMenuItemClick(MenuItem item) {
+        //                switch (item.getItemId()) {
+        //                    case R.id.action_settings:
+        //                        startActivity(new Intent(mContext, SettingsActivity.class));
+        //                        break;
+        //                }
+        //                return true;
+        //            }
+        //        });
         TextView tv_set = view.findViewById(R.id.tv_set);
         tv_set.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,11 +111,11 @@ public class MeFragment extends Fragment {
         });
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu, menu);
-//    }
+    //    @Override
+    //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    //        super.onCreateOptionsMenu(menu, inflater);
+    //        inflater.inflate(R.menu.menu, menu);
+    //    }
 
     protected void setViews() {
         gv_me = (GridView) view.findViewById(R.id.gv_me);
@@ -231,15 +231,15 @@ public class MeFragment extends Fragment {
                         break;
                     case 1:
                         String fgroup = YApplication.fgroup;
-//                        if (null==fgroup){
-//                            ToastUtils.showToast(getContext(),"获取失败，请退出重新登陆账号。");
-//                            return;
-//                        }else if (!fgroup.contains("集团")){
-//                            ToastUtils.showToast(getContext(),"暂无查看监控权限，请您先申请权限。");
-//                            return;
-//                        }
-                        ToastUtils.showToast(getContext(),"正在开发...");
-//                        startActivity(new Intent(mContext, JiankongActivity.class));
+                        //                        if (null==fgroup){
+                        //                            ToastUtils.showToast(getContext(),"获取失败，请退出重新登陆账号。");
+                        //                            return;
+                        //                        }else if (!fgroup.contains("集团")){
+                        //                            ToastUtils.showToast(getContext(),"暂无查看监控权限，请您先申请权限。");
+                        //                            return;
+                        //                        }
+                        ToastUtils.showToast(getContext(), "正在开发...");
+                        //                        startActivity(new Intent(mContext, JiankongActivity.class));
                         break;
                     case 2:
                         startActivity(new Intent(mContext, TongjiActivity.class));
@@ -248,10 +248,10 @@ public class MeFragment extends Fragment {
                         startActivity(new Intent(mContext, NeedCheckActivity.class));
                         break;
                     case 4:
-                        ToastUtils.showToast(getContext(),"正在开发...");
-//                        ImageView iv = new ImageView(mContext);
-//                        iv.setImageResource(R.drawable.receive_barcode);
-//                        new AlertDialog.Builder(mContext).setView(iv).show();
+                        ToastUtils.showToast(getContext(), "正在开发...");
+                        //                        ImageView iv = new ImageView(mContext);
+                        //                        iv.setImageResource(R.drawable.receive_barcode);
+                        //                        new AlertDialog.Builder(mContext).setView(iv).show();
                         break;
                 }
             }
@@ -349,6 +349,7 @@ public class MeFragment extends Fragment {
                     while (iter.hasNext()) {
                         Element recordEle = (Element) iter.next();
                         username = recordEle.elementTextTrim("username"); // 拿到head节点下的子节点title值
+                        YApplication.username = username; // 拿到head节点下的子节点title值
                         depart = recordEle.elementTextTrim("depart");
                         company = recordEle.elementTextTrim("company");
                         detail = recordEle.elementTextTrim("detail");

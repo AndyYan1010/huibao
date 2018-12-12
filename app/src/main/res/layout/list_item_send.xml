@@ -25,7 +25,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="3dp"
-            android:src="@mipmap/avatar3"/>
+            android:src="@drawable/rec_head"/>
 
         <RelativeLayout
             android:id="@+id/rlt_order"
