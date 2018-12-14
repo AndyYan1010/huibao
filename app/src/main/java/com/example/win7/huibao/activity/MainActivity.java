@@ -22,11 +22,11 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.NetUtils;
 
 public class MainActivity extends BaseActivity {
-    MsgFragment msg;
+    MsgFragment   msg;
     OrderFragment order;
-    TaskFragment task;
-    MeFragment me;
-    Button[] btns = new Button[4];
+    TaskFragment  task;
+    MeFragment    me;
+    Button[]   btns      = new Button[4];
     Fragment[] fragments = null;
     private long exitTime = 0;
     /**
@@ -47,9 +47,9 @@ public class MainActivity extends BaseActivity {
         setListeners();
     }
 
-    protected void setViews(){
+    protected void setViews() {
         btns[0] = (Button) findViewById(R.id.btn_msg);//消息
-//        btns[1] = (Button) findViewById(R.id.btn_msg);//通讯录
+        //        btns[1] = (Button) findViewById(R.id.btn_msg);//通讯录
         btns[1] = (Button) findViewById(R.id.btn_task);//任务
         btns[2] = (Button) findViewById(R.id.btn_order);//订单
         btns[3] = (Button) findViewById(R.id.btn_me);//我的
@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity {
         task = new TaskFragment();
         order = new OrderFragment();
         me = new MeFragment();
-        fragments = new Fragment[]{msg,task,order,me};
+        fragments = new Fragment[]{msg, task, order, me};
 
         // 一开始，显示第一个fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -101,7 +101,6 @@ public class MainActivity extends BaseActivity {
                             // 当前hide
                             transaction.hide(fragments[currentIndex]);
                             // show你选中
-
                             if (!fragments[selectedIndex].isAdded()) {
                                 // 以前没添加过
                                 transaction.add(R.id.fragment_container,
@@ -110,7 +109,9 @@ public class MainActivity extends BaseActivity {
                             // 事务
                             transaction.show(fragments[selectedIndex]);
                             transaction.commit();
-
+                            if (fragments[selectedIndex] == me) {
+                                me.searchPersonInfo();
+                            }
                             btns[currentIndex].setSelected(false);
                             btns[selectedIndex].setSelected(true);
                             currentIndex = selectedIndex;
@@ -130,23 +131,24 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onConnected() {
         }
+
         @Override
         public void onDisconnected(final int error) {
             runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
-                    if(error == EMError.USER_REMOVED){
+                    if (error == EMError.USER_REMOVED) {
                         // 显示帐号已经被移除
 
-                    }else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                    } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                         // 显示帐号在其他设备登录
 
                     } else {
                         if (NetUtils.hasNetwork(MainActivity.this)) {
                             //连接不到聊天服务器
 
-                        }else {
+                        } else {
                             //当前网络不可用，请检查网络设置
 
                         }
@@ -164,6 +166,7 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
     public void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
             Toast.makeText(getApplicationContext(), "再按一次退出应用",

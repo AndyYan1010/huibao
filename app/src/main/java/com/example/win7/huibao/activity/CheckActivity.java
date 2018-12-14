@@ -160,7 +160,7 @@ public class CheckActivity extends AppCompatActivity {
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ToastUtils.showToast(CheckActivity.this,"请抄送后，转下一个人审核");
+                //                ToastUtils.showToast(CheckActivity.this,"请抄送后，转下一个人审核");
                 new CheckTask(et_get.getText().toString(), pfid, userid, goodsid).execute();
             }
         });
@@ -387,7 +387,7 @@ public class CheckActivity extends AppCompatActivity {
                     ",a.fimage1,a.fimage2,a.fimage3,a.fimage4,a.fimage5 from t_BOS200000000Entry2 a left join t_BOS200000000 s on s.fid=a.fid left join t_Item_3001 t on t.fitemid=s.fbase11 left join t_Department u on u.FItemID=s.FBase12 " +
                     " left join t_icitem b on b.fitemid=a.fbase1 " +
                     "left join t_item_3007 c on c.fitemid=a.fbase left join t_item d on d.fitemid=c.f_105 " +
-                    "left join t_measureunit e on e.fmeasureunitid=b.fitemid left join t_item f on f.fitemid=a.fbase14 left join t_emp i on i.fitemid=a.fbase15 where a.id='" + id + "'";
+                    "left join t_measureunit e on e.fmeasureunitid=b.fitemid left join t_item f on f.fitemid=a.fbase14 left join t_emp i on i.fitemid=a.fbase15  where a.id='" + id + "'";
             Log.i("SQL查询语句", sql);
             rpc.addProperty("FSql", sql);
             rpc.addProperty("FTable", "t_BOS200000000Entry2");
@@ -467,10 +467,9 @@ public class CheckActivity extends AppCompatActivity {
             tv_comp.setText(map.get("comp"));
             tv_part.setText(map.get("part"));
             tv_item.setText(map.get("item"));
-            Log.i("数量", map.get("shuliang"));
-            tv_num.setText(df.format(Double.parseDouble(map.get("shuliang"))));
-            tv_pri.setText(df.format(Double.parseDouble(map.get("danjia"))));
-            tv_taxpri.setText(df.format(Double.parseDouble(map.get("hanshui"))));
+            tv_num.setText(df.format(Double.parseDouble(null == map.get("shuliang") ? "0" : map.get("shuliang"))));
+            tv_pri.setText(df.format(Double.parseDouble(null == map.get("danjia") ? "0" : map.get("danjia"))));
+            tv_taxpri.setText(df.format(Double.parseDouble(null == map.get("hanshui") ? "0" : map.get("hanshui"))));
             tv_start.setText(map.get("qi"));
             tv_end.setText(map.get("zhi"));
             tv_pro.setText(map.get("progress"));
@@ -478,13 +477,13 @@ public class CheckActivity extends AppCompatActivity {
             tv_budget.setText(map.get("budget"));
             tv_pbudget.setText(map.get("pbudget"));
             tv_notes.setText(map.get("note"));
-            tv_buhan.setText(df.format(Double.parseDouble(map.get("buhan"))));
+            tv_buhan.setText(df.format(Double.parseDouble(null == map.get("buhan") ? "0" : map.get("buhan"))));
             tv_sup.setText(map.get("fuzhu"));
-            tv_supl.setText(df.format(Double.parseDouble(map.get("fuliang"))));
+            tv_supl.setText(df.format(Double.parseDouble(null == map.get("fuliang") ? "0" : map.get("fuliang"))));
             tv_send.setText(map.get("fasong"));
             et_get.setText(map.get("huikui"));
             tv_creator.setText(map.get("zhidan"));
-            if (!map.get("pf").equals("*")) {
+            if (null != map.get("pf") && "".equals(map.get("pf"))) {
                 tv_pf.setText(map.get("pf"));
             }
         }
@@ -631,7 +630,8 @@ public class CheckActivity extends AppCompatActivity {
 
                 // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
                 Log.i("昵称查询语句", "select a.fname from t_emp a inner join t_user d on a.fitemid=b.fempid where d.fname in" + s + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
+                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.FDescription name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+                //                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
                 rpc.addProperty("FTable", "t_user");
 
                 // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
@@ -669,12 +669,11 @@ public class CheckActivity extends AppCompatActivity {
                         Element recordEle = (Element) iter.next();
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("fname", recordEle.elementTextTrim("fname"));
-                        map.put("name", recordEle.elementTextTrim("name"));
+                        map.put("name", recordEle.elementTextTrim("name"));//for 环信
                         map.put("ischeck", false);
                         map.put("fitemid", recordEle.elementTextTrim("fitemid"));
                         list2.add(map);
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

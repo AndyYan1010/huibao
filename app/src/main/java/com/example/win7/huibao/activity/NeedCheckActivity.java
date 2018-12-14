@@ -120,7 +120,8 @@ public class NeedCheckActivity extends BaseActivity {
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-            String name = YApplication.fname;
+//            String name = YApplication.fname;
+            String name = YApplication.username;
             String sql = "select a.id,b.fname item,a.fdecimal number,a.fdecimal1 price,a.famount2 amount from t_BOS200000000Entry2 a left join t_icitem b on b.fitemid=a.fbase1 where (a.FBase5=(select FEmpID from t_User where FName='"+name+"') and a.FCheckBox1=0) or " +
                     "(a.FBase6=(select FEmpID from t_User where FName='"+name+"') and a.FCheckBox2=0) or (a.FBase7=(select FEmpID from t_User where FName='"+name+"') and a.FCheckBox3=0) " +
                     "or (a.FBase8=(select FEmpID from t_User where FName='"+name+"') and a.FCheckBox4=0) or (a.FBase9=(select FEmpID from t_User where FName='"+name+"') and a.FCheckBox5=0)";

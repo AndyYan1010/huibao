@@ -68,7 +68,12 @@ public class MsgAdapter extends BaseAdapter {
         long msgTime = emConversation.getLastMsgTime();
 
         holder.tv_nickname.setText(nickName);
-        holder.tv_lastmsg.setText(lastMessage);
+        if (null != lastMessage && lastMessage.startsWith("{goodsId}")) {
+            holder.tv_lastmsg.setText("这是一个审核单信息");
+        }else {
+            holder.tv_lastmsg.setText(lastMessage);
+        }
+
         if (msgTime == 0) {
             holder.tv_time.setVisibility(View.INVISIBLE);
         } else {

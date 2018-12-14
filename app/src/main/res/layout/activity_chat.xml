@@ -5,6 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="@color/gray_ef"
               tools:context="com.example.win7.huibao.activity.ChatActivity">
 
     <include layout="@layout/toolbar"/>

@@ -74,7 +74,7 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
     }
 
     @Override
-    public void onBindViewHolder(final ChatViewHolder holder, int position) {
+    public void onBindViewHolder(final ChatViewHolder holder, final int position) {
         EMMessage emMessage = mEMMessageList.get(position);
         long msgTime = emMessage.getMsgTime();
         //需要将消息body转换为EMTextMessageBody
@@ -84,11 +84,11 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
             holder.mTvMsg.setText(message);
             holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.word_black));
         } else {
-            if (0 == holder.getItemViewType()) {
+            if (2 == holder.getItemViewType()) {
                 holder.mTvMsg.setText("这是需审核任务单，单号：" + message.substring(9, message.length()) + "，\n请点击审核");
                 holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.vm_orange_100));
             } else {
-                holder.mTvMsg.setText("***这是我发送的审核单，单号：" + message.substring(9, message.length()));
+                holder.mTvMsg.setText("**这是我发送的审核单，单号：" + message.substring(9, message.length()));
                 holder.mTvMsg.setTextColor(mContext.getResources().getColor(R.color.word_black));
             }
         }
@@ -98,7 +98,7 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ChatViewHo
                 String orderID = String.valueOf(holder.mTvMsg.getText()).trim();
                 if (orderID.startsWith("这是需审核任务单")) {
                     Intent chatIntent = new Intent(mContext, CheckActivity.class);
-                    chatIntent.putExtra("goodsId", orderID);
+                    chatIntent.putExtra("goodsId", ((EMTextMessageBody)mEMMessageList.get(position).getBody()).getMessage().substring(9));
                     mContext.startActivity(chatIntent);
                 } else {
                     ToastUtils.showToast(mContext, "这是聊天消息，非审核信息，无需跳转");

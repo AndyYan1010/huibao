@@ -134,6 +134,16 @@ public class MeFragment extends Fragment {
         adapter = new GridViewAdapter(mContext, list);
         gv_me.setAdapter(adapter);
         intent = new Intent(mContext, DetailActivity.class);
+//      searchPersonInfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchPersonInfo();
+    }
+
+    public void searchPersonInfo() {
         new MTask().execute();
     }
 
@@ -305,7 +315,8 @@ public class MeFragment extends Fragment {
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-            rpc.addProperty("FSql", "select a.fname username,b.fname depart,c.FName company,c.F_101 detail,c.f_102 lately,e.f_102 zhidu from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 left join t_Item_3006 e on e.F_101=b.FItemID where FDescription='" + YApplication.fname + "'");
+            rpc.addProperty("FSql", "select a.fname username,b.fname depart,c.FName company,c.F_101 detail,c.f_102 lately,e.f_102 zhidu from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=a.f_102 left join t_Item_3006 e on e.F_101=b.FItemID where FDescription='" + YApplication.fname + "'");
+//          rpc.addProperty("FSql", "select a.fname username,b.fname depart,c.FName company,c.F_101 detail,c.f_102 lately,e.f_102 zhidu from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 left join t_Item_3006 e on e.F_101=b.FItemID where FDescription='" + YApplication.fname + "'");
             rpc.addProperty("FTable", "t_user");
 
             // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本

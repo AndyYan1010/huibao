@@ -29,11 +29,11 @@ import java.util.Map;
 
 
 public class ZhuFragment extends Fragment {
-    Context mContext;
-    View view;
-    TextView tv_no,tv_currency,tv_rate,tv_departs,tv_area,tv_content,tv_respon,tv_zhidan,tv_contacts,tv_jiliang,tv_zeren;
+    Context  mContext;
+    View     view;
+    TextView tv_no, tv_currency, tv_rate, tv_departs, tv_area, tv_content, tv_respon, tv_zhidan, tv_contacts, tv_wy, tv_jiliang, tv_zeren;
     CustomProgress dialog;
-    String taskno,currency,rate,departs,area,zeren,content,respon,zhidan,contacts,jiliang="";
+    String taskno, currency, rate, departs, area, zeren,wangyin, content, respon, zhidan, contacts, jiliang = "";
     DecimalFormat df = new DecimalFormat("#0.00");
 
     @Override
@@ -46,48 +46,49 @@ public class ZhuFragment extends Fragment {
         return view;
     }
 
-    protected void setViews(){
-        tv_no = (TextView)view.findViewById(R.id.tv_no);
-        tv_currency = (TextView)view.findViewById(R.id.tv_currency);
-        tv_rate = (TextView)view.findViewById(R.id.tv_rate);
-        tv_departs = (TextView)view.findViewById(R.id.tv_departs);
-        tv_area = (TextView)view.findViewById(R.id.tv_area);
-        tv_content = (TextView)view.findViewById(R.id.tv_content);
-        tv_respon = (TextView)view.findViewById(R.id.tv_respon);
-        tv_zhidan = (TextView)view.findViewById(R.id.tv_zhidan);
-        tv_contacts = (TextView)view.findViewById(R.id.tv_contacts);
-        tv_jiliang = (TextView)view.findViewById(R.id.tv_jiliang);
+    protected void setViews() {
+        tv_no = (TextView) view.findViewById(R.id.tv_no);
+        tv_currency = (TextView) view.findViewById(R.id.tv_currency);
+        tv_rate = (TextView) view.findViewById(R.id.tv_rate);
+        tv_departs = (TextView) view.findViewById(R.id.tv_departs);
+        tv_area = (TextView) view.findViewById(R.id.tv_area);
+        tv_content = (TextView) view.findViewById(R.id.tv_content);
+        tv_respon = (TextView) view.findViewById(R.id.tv_respon);
+        tv_zhidan = (TextView) view.findViewById(R.id.tv_zhidan);
+        tv_contacts = (TextView) view.findViewById(R.id.tv_contacts);
+        tv_wy = (TextView) view.findViewById(R.id.tv_wy);
+        tv_jiliang = (TextView) view.findViewById(R.id.tv_jiliang);
         tv_zeren = view.findViewById(R.id.tv_zeren);
         taskno = getArguments().getString("taskno");
         new ZHUTask(taskno).execute();
     }
 
-    protected void setListeners(){
+    protected void setListeners() {
 
     }
 
-    public Map<String,String> getInfo(){
-        Map<String,String> map = new HashMap<>();
-        map.put("fbillno",taskno);
-        map.put("zuzhi",departs);
-        map.put("shenqing",area);
-        map.put("zeren",zeren);
-        map.put("respon",respon);
-        map.put("zhidan",zhidan);
-        map.put("contacts",contacts);
+    public Map<String, String> getInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("fbillno", taskno);
+        map.put("zuzhi", departs);
+        map.put("shenqing", area);
+        map.put("zeren", zeren);
+        map.put("respon", respon);
+        map.put("zhidan", zhidan);
+        map.put("contacts", contacts);
         return map;
     }
 
-    class ZHUTask extends AsyncTask<Void,String,String>{
+    class ZHUTask extends AsyncTask<Void, String, String> {
         String Taskno;
 
-        ZHUTask(String Taskno){
+        ZHUTask(String Taskno) {
             this.Taskno = Taskno;
         }
 
         @Override
         protected void onPreExecute() {
-            dialog = CustomProgress.show(mContext,"加载中...",true,null);
+            dialog = CustomProgress.show(mContext, "加载中...", true, null);
             super.onPreExecute();
         }
 
@@ -107,13 +108,13 @@ public class ZhuFragment extends Fragment {
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
             String sql = "select top 1 a.FAmount4 rate,c.fname departs,d.fname area,e.fname currency," +
-                    "f.fname respon,g.fname wanglai,h.fname neirong,i.fname zhidan,j.fname jiliang,k.fname zeren from t_BOS200000000 a " +
+                    "f.fname respon,g.fname wanglai,h.fname neirong,i.fname zhidan,j.fname jiliang,k.fname zeren,p.fname wangyin from t_BOS200000000 a " +
                     "left join t_BOS200000000Entry2 b on b.FID=a.FID left join t_Item_3001 c " +
                     "on c.FItemID=a.FBase11 left join t_Department d on d.FItemID=a.FBase12 left join" +
                     " t_Currency e on e.FCurrencyID=a.FBase3 left join t_emp f on f.fitemid=b.fbase4 left join" +
                     " t_emp g on g.fitemid=b.fbase10 left join t_ICItem h on h.FItemID=b.FBase1 left join t_emp i on i.fitemid=b.fbase15 " +
-                    "left join t_measureunit j on j.fitemid=h.funitid left join t_Department k on k.fitemid=a.FBase16 where a.FBillNo ='"+Taskno+"'";
-            Log.i("主表查询语句",sql);
+                    "left join t_measureunit j on j.fitemid=h.funitid left join t_Department k on k.fitemid=a.FBase16 left join t_Item_3003 p on p.fitemid=a.fbase17 where a.FBillNo ='" + Taskno + "'";
+            Log.i("主表查询语句", sql);
             rpc.addProperty("FSql", sql);
             rpc.addProperty("FTable", "t_Currency");
 
@@ -139,7 +140,7 @@ public class ZhuFragment extends Fragment {
             SoapObject object = (SoapObject) envelope.bodyIn;
 
             // 获取返回的结果
-            Log.i("返回结果", object.getProperty(0).toString()+"=========================");
+            Log.i("返回结果", object.getProperty(0).toString() + "=========================");
             String result = object.getProperty(0).toString();
             Document doc = null;
 
@@ -165,6 +166,7 @@ public class ZhuFragment extends Fragment {
                     contacts = recordEle.elementTextTrim("wanglai");
                     jiliang = recordEle.elementTextTrim("jiliang");
                     zeren = recordEle.elementTextTrim("zeren");
+                    wangyin = recordEle.elementTextTrim("wangyin");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -186,6 +188,7 @@ public class ZhuFragment extends Fragment {
             tv_contacts.setText(contacts);
             tv_jiliang.setText(jiliang);
             tv_zeren.setText(zeren);
+            tv_wy.setText(wangyin);
             super.onPostExecute(s);
         }
     }

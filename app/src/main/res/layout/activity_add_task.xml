@@ -297,7 +297,7 @@
                         android:id="@+id/tv_content_add"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="0dp"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:gravity="right|center_vertical"
                         android:hint="@string/select"
@@ -306,41 +306,41 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:text="@string/jiliang"
-                        android:textSize="14sp"/>
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_weight="2"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="@string/jiliang"-->
+                <!--android:textSize="14sp"/>-->
 
-                    <TextView
-                        android:id="@+id/tv_jl"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="3"
-                        android:gravity="right|center_vertical"
-                        android:hint="@string/select"
-                        android:singleLine="true"
-                        android:textColor="@color/bottom_button_text_black"
-                        android:textSize="14sp"/>
-                </LinearLayout>
+                <!--<TextView-->
+                <!--android:id="@+id/tv_jl"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_weight="3"-->
+                <!--android:gravity="right|center_vertical"-->
+                <!--android:hint="@string/select"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@color/bottom_button_text_black"-->
+                <!--android:textSize="14sp"/>-->
+                <!--</LinearLayout>-->
 
             </LinearLayout>
 
 
             <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0.5dp"-->
-                <!--android:background="@color/bottom_button_text_gray"/>-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0.5dp"-->
+            <!--android:background="@color/bottom_button_text_gray"/>-->
 
 
             <View
@@ -350,48 +350,113 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/total"
-                    android:textSize="16sp"/>
+                    android:text="网银："
+                    android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/tv_total"
+                    android:id="@+id/tv_wy"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="2"
-                    android:gravity="right|center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/bottom_button_text_black"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/amount"
-                    android:textSize="16sp"/>
+                    android:gravity="right"
+                    android:text="点击选择"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_amounts"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/bottom_button_text_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="2"
-                    android:gravity="right|center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/bottom_button_text_black"
-                    android:textSize="16sp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/jiliang"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_jl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="3"
+                        android:hint="@string/select"
+                        android:singleLine="true"
+                        android:textColor="@color/bottom_button_text_black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/total"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="2dp"
+                        android:textColor="@color/bottom_button_text_black"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:text="@string/amount"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_amounts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/bottom_button_text_black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <View

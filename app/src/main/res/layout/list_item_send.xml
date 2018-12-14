@@ -25,7 +25,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="3dp"
-            android:src="@drawable/rec_head"/>
+            android:src="@drawable/me_focus"/>
 
         <RelativeLayout
             android:id="@+id/rlt_order"

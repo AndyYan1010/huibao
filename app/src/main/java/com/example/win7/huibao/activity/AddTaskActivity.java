@@ -84,14 +84,14 @@ import java.util.Locale;
 
 public class AddTaskActivity extends BaseActivity {
     Toolbar  toolbar;
-    TextView tv_huilv, tv_zuzhi, tv_quyu, tv_content, tv_respon, tv_zhidan, tv_contacts, tv_bibie, tv_jl, tv_total, tv_amounts, tv_zeren;
+    TextView tv_huilv, tv_zuzhi, tv_quyu, tv_content, tv_wy, tv_respon, tv_zhidan, tv_contacts, tv_bibie, tv_jl, tv_total, tv_amounts, tv_zeren;
     MyListView                    lv_zb;
     List<HashMap<String, String>> list, list1, ziList;
     List<String> strList, strList1, strList2, lists;
     DecimalFormat df  = new DecimalFormat("#0.00");
     DecimalFormat df1 = new DecimalFormat("#0.0000");
     String interid, taskno, respon, zhidan, contacts,
-            content, contentid, planid, sup, jiliang,
+            content, contentid, wangyinname, wyid, planid, sup, jiliang,
             jiliangid, pfid, zuzhi, quyu, zeren,
             zhidu1, zhidu2, username, depart, company,
             aid, a, aa, bid, b, bb, cid, c, cc, did, d, dd, eid, e, ee, qr1, qr2, qr3, qr4, qr5;
@@ -753,6 +753,7 @@ public class AddTaskActivity extends BaseActivity {
         tv_contacts = (TextView) findViewById(R.id.tv_contacts_add);//往来
         tv_total = (TextView) findViewById(R.id.tv_total);
         tv_amounts = (TextView) findViewById(R.id.tv_amounts);
+        tv_wy = (TextView) findViewById(R.id.tv_wy);
         tv_zeren = findViewById(R.id.tv_zeren);
         if (YApplication.fgroup.contains("仓储")) {
             tv_amounts.setVisibility(View.INVISIBLE);
@@ -867,6 +868,22 @@ public class AddTaskActivity extends BaseActivity {
 
             }
         });
+        tv_wy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (lists.contains("True")) {
+                    return;
+                }
+                final EditText et = new EditText(AddTaskActivity.this);
+                new AlertDialog.Builder(AddTaskActivity.this).setTitle("网银").setView(et)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                new WYTask(et.getText().toString()).execute();
+                            }
+                        }).setNegativeButton("取消", null).show();
+            }
+        });
         //计量单位选择
         tv_jl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -936,6 +953,10 @@ public class AddTaskActivity extends BaseActivity {
                     Toast.makeText(AddTaskActivity.this, "请选择内容", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (wyid == null) {
+                    Toast.makeText(AddTaskActivity.this, "请选择银行", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (respon == null) {
                     Toast.makeText(AddTaskActivity.this, "请选择责任人", Toast.LENGTH_SHORT).show();
                     return;
@@ -961,6 +982,7 @@ public class AddTaskActivity extends BaseActivity {
                 tasks.setFBase11(zuzhi);
                 tasks.setFBase12(quyu);
                 tasks.setFBase16(zeren);
+                tasks.setFBase17(wyid);
 
                 List<TaskEntry> list = new ArrayList<>();
                 for (int i = 0; i < ziList.size(); i++) {
@@ -1697,6 +1719,111 @@ public class AddTaskActivity extends BaseActivity {
         }
     }
 
+    class WYTask extends AsyncTask<Void, String, String> {
+        String name;
+
+        public WYTask(String name) {
+            this.name = name;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            list1.clear();
+            strList1.clear();
+            progress = CustomProgress.show(AddTaskActivity.this, "加载中...", true, null);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            // 命名空间
+            String nameSpace = "http://tempuri.org/";
+            // 调用的方法名称
+            String methodName = "JA_select";
+            // EndPoint
+            String endPoint = Consts.ENDPOINT;
+            // SOAP Action
+            String soapAction = "http://tempuri.org/JA_select";
+
+            // 指定WebService的命名空间和调用的方法名
+            SoapObject rpc = new SoapObject(nameSpace, methodName);
+
+            // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+            String sql = "select FName,FItemID from t_Item_3003";
+            rpc.addProperty("FSql", sql);
+            rpc.addProperty("FTable", "t_user");
+
+            // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER10);
+
+            envelope.bodyOut = rpc;
+            // 设置是否调用的是dotNet开发的WebService
+            envelope.dotNet = true;
+            // 等价于envelope.bodyOut = rpc;
+            envelope.setOutputSoapObject(rpc);
+
+            HttpTransportSE transport = new HttpTransportSE(endPoint);
+            try {
+                // 调用WebService
+                transport.call(soapAction, envelope);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i("AddTaskActivity", e.toString() + "==================================");
+            }
+
+            // 获取返回的数据
+            SoapObject object = (SoapObject) envelope.bodyIn;
+
+            // 获取返回的结果
+            Log.i("返回结果", object.getProperty(0).toString() + "=========================");
+            String result = object.getProperty(0).toString();
+            Document doc = null;
+            try {
+                doc = DocumentHelper.parseText(result); // 将字符串转为XML
+                Element rootElt = doc.getRootElement(); // 获取根节点
+                System.out.println("根节点：" + rootElt.getName()); // 拿到根节点的名称
+                Iterator iter = rootElt.elementIterator("Cust"); // 获取根节点下的子节点head
+                // 遍历head节点
+                while (iter.hasNext()) {
+                    Element recordEle = (Element) iter.next();
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("itemid", null == recordEle.elementTextTrim("FItemID") ? "" : recordEle.elementTextTrim("FItemID"));//银行id
+                    map.put("fname", recordEle.elementTextTrim("FName"));//银行名称
+                    list1.add(map);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "0";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progress.dismiss();
+            for (HashMap<String, String> map : list1) {
+                String name = map.get("fname");
+                strList1.add(name);
+            }
+            final ListView lv = new ListView(AddTaskActivity.this);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(AddTaskActivity.this, android.R.layout.simple_list_item_1, strList1);
+            lv.setAdapter(adapter);
+            final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this).setView(lv)
+                    .setTitle("网银:").show();
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    wyid = list1.get(i).get("itemid");//网银id
+                    wangyinname = strList1.get(i);//网银名称
+                    tv_wy.setText(wangyinname);
+                    dialog.dismiss();
+                }
+            });
+        }
+    }
+
+
     //查人员
     class EmpTask extends AsyncTask<Void, String, String> {
         int    type;//0选择制单人,1选择往来
@@ -1910,6 +2037,7 @@ public class AddTaskActivity extends BaseActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     jiliangid = list1.get(i).get("itemid");//计量单位id
                     jiliang = strList1.get(i);//显示计量单位
+                    tv_jl.setText(jiliang);
                     dialog.dismiss();
                 }
             });
@@ -2174,12 +2302,12 @@ public class AddTaskActivity extends BaseActivity {
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
             String sql = "select top 1 a.FAmount4 rate,c.fname departs,c.fitemid departsid,d.fname area,d.fitemid areaid,e.fname currency,e.fcurrencyid," +
-                    "f.fname respon,f.fitemid responid,g.fname wanglai,g.fitemid wanglid,h.fname neirong,h.fitemid neirongid,h.ftaxrate,h.fseccoefficient,i.fname zhidan,i.fitemid zhidanid,j.fname zhidu1,j.fitemid zhiduid,a.fnote1,k.fname jiliang,k.fitemid jiliangid,a.fbase16 zerenid,l.fname zeren from t_BOS200000000 a " +
+                    "f.fname respon,f.fitemid responid,g.fname wanglai,g.fitemid wanglid,h.fname neirong,h.fitemid neirongid,h.ftaxrate,h.fseccoefficient,i.fname zhidan,i.fitemid zhidanid,j.fname zhidu1,j.fitemid zhiduid,a.fnote1,k.fname jiliang,k.fitemid jiliangid,a.fbase16 zerenid,l.fname zeren ,p.fname wangyin,p.fitemid wangyinid from t_BOS200000000 a " +
                     "left join t_BOS200000000Entry2 b on b.FID=a.FID left join t_Item_3001 c " +
                     "on c.FItemID=a.FBase11 left join t_Department d on d.FItemID=a.FBase12 left join" +
                     " t_Currency e on e.FCurrencyID=a.FBase3 left join t_emp f on f.fitemid=b.fbase4 left join" +
                     " t_emp g on g.fitemid=b.fbase10 left join t_ICItem h on h.FItemID=b.FBase1 left join t_emp i on i.fitemid=b.fbase15 left join t_Item_3006 j on j.FItemID=a.FBase13 left join t_measureunit k on k.fitemid=b.fbase2 " +
-                    "left join t_Department l on l.fitemid=a.fbase16 where a.FBillNo ='" + Taskno + "'";
+                    "left join t_Department l on l.fitemid=a.fbase16 left join t_Item_3003 p on p.fitemid=a.fbase17 where a.FBillNo ='" + Taskno + "'";
             rpc.addProperty("FSql", sql);
             rpc.addProperty("FTable", "t_user");
 
@@ -2244,6 +2372,8 @@ public class AddTaskActivity extends BaseActivity {
                     }
                     map.put("wanglai", recordEle.elementTextTrim("wanglai"));
                     map.put("wanglid", recordEle.elementTextTrim("wanglid"));
+                    map.put("wangyin", recordEle.elementTextTrim("wangyin"));
+                    map.put("wangyinid", recordEle.elementTextTrim("wangyinid"));
                     map.put("zhidu1", recordEle.elementTextTrim("zhidu1"));
                     map.put("zhiduid", recordEle.elementTextTrim("zhiduid"));
                     map.put("fnote1", recordEle.elementTextTrim("fnote1"));
@@ -2271,6 +2401,7 @@ public class AddTaskActivity extends BaseActivity {
             tv_zuzhi.setText(list.get(0).get("departs"));
             tv_quyu.setText(list.get(0).get("area"));
             tv_content.setText(list.get(0).get("neirong"));
+            tv_wy.setText(list.get(0).get("wangyin"));
             tv_respon.setText(list.get(0).get("respon"));
             tv_zhidan.setText(list.get(0).get("zhidan"));
             tv_contacts.setText(list.get(0).get("wanglai"));
@@ -2284,6 +2415,7 @@ public class AddTaskActivity extends BaseActivity {
             zhidu1 = list.get(0).get("zhiduid");
             zhidu2 = list.get(0).get("fnote1");
             contentid = list.get(0).get("neirongid");
+            wyid=list.get(0).get("wangyinid");
             content = list.get(0).get("neirong");
             respon = list.get(0).get("responid");
             zhidan = list.get(0).get("zhidanid");
@@ -2571,7 +2703,8 @@ public class AddTaskActivity extends BaseActivity {
 
                 // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
                 Log.i("昵称查询语句", "select a.fname from t_emp a inner join t_user d on a.fitemid=b.fempid where d.fname in" + s + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.FDescription name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
+                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.FDescription name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fuserid in (select fuserid from t_group where FGroupID=45) and  b.FDescription in" + s);
+                //                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.FDescription name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
                 //                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.FDescription in" + s);
                 //                rpc.addProperty("FSql", "select a.fitemid,a.fname,b.fname name from t_emp a inner join t_user b on a.fitemid=b.fempid where b.fname in" + s);
                 rpc.addProperty("FTable", "t_user");

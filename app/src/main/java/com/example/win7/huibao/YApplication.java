@@ -173,6 +173,12 @@ public class YApplication extends Application {
                         @Override
                         public void run() {
                             ToastUtils.showToast(YApplication.this, "您已在其他设备上登录了，请重新登录。");
+                            //保存用户名，用户组
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("fname", "");
+                            editor.putString("fgroup", "");
+                            editor.putString("status", "0");
+                            editor.commit();
                         }
                     });
 
