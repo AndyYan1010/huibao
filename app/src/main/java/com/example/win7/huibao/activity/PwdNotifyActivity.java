@@ -24,10 +24,10 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 public class PwdNotifyActivity extends BaseActivity {
-    Toolbar toolbar;
-    EditText et_newpwd,et_repeatpwd;
+    Toolbar  toolbar;
+    EditText et_newpwd, et_repeatpwd;
     Button btn_submit;
-    String newpwd,repeatpwd;
+    String newpwd, repeatpwd;
     CustomProgress dialog;
 
     @Override
@@ -39,8 +39,8 @@ public class PwdNotifyActivity extends BaseActivity {
         setListeners();
     }
 
-    protected void setTool(){
-        toolbar = (Toolbar)findViewById(R.id.id_toolbar);
+    protected void setTool() {
+        toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         toolbar.setTitle(R.string.notifypwd);
 
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -53,33 +53,33 @@ public class PwdNotifyActivity extends BaseActivity {
                 new AlertDialog.Builder(PwdNotifyActivity.this).setTitle("确认放弃修改?").setIcon(
                         android.R.drawable.ic_dialog_info)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
                         .setNegativeButton("取消", null).show();
             }
         });
     }
 
-    protected void setViews(){
-        et_newpwd = (EditText)findViewById(R.id.et_newpwd);
-        et_repeatpwd = (EditText)findViewById(R.id.et_repeatpwd);
-        btn_submit = (Button)findViewById(R.id.btn_submit);
+    protected void setViews() {
+        et_newpwd = (EditText) findViewById(R.id.et_newpwd);
+        et_repeatpwd = (EditText) findViewById(R.id.et_repeatpwd);
+        btn_submit = (Button) findViewById(R.id.btn_submit);
     }
 
-    protected void setListeners(){
+    protected void setListeners() {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newpwd = et_newpwd.getText().toString();
                 repeatpwd = et_repeatpwd.getText().toString();
-                if(newpwd.equals("")||repeatpwd.equals("")){
-                    Toast.makeText(PwdNotifyActivity.this,"请填写完整两次密码",Toast.LENGTH_SHORT).show();
-                }else if(!newpwd.equals(repeatpwd)){
-                    Toast.makeText(PwdNotifyActivity.this,"两次密码输入不一致",Toast.LENGTH_SHORT).show();
-                }else{
+                if (newpwd.equals("") || repeatpwd.equals("")) {
+                    Toast.makeText(PwdNotifyActivity.this, "请填写完整两次密码", Toast.LENGTH_SHORT).show();
+                } else if (!newpwd.equals(repeatpwd)) {
+                    Toast.makeText(PwdNotifyActivity.this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
+                } else {
                     new PTask(newpwd).execute();
                 }
             }
@@ -103,17 +103,17 @@ public class PwdNotifyActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    class PTask extends AsyncTask<Void,String,String>{
+    class PTask extends AsyncTask<Void, String, String> {
         String pass;
 
-        PTask(String pass){
+        PTask(String pass) {
             this.pass = pass;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = CustomProgress.show(PwdNotifyActivity.this,"提交中...",true,null);
+            dialog = CustomProgress.show(PwdNotifyActivity.this, "提交中...", true, null);
         }
 
         @Override
@@ -157,7 +157,7 @@ public class PwdNotifyActivity extends BaseActivity {
 
             // 获取返回的结果
             if (null != object) {
-                Log.i("返回结果", object.getProperty(0).toString()+"=========================");
+                Log.i("返回结果", object.getProperty(0).toString() + "=========================");
                 String result = object.getProperty(0).toString();
                 if (result.equals("成功")) {
                     return "1";
@@ -172,12 +172,12 @@ public class PwdNotifyActivity extends BaseActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             dialog.dismiss();
-            if(s.equals("1")){
-                Toast.makeText(PwdNotifyActivity.this,"修改成功，请重新登录",Toast.LENGTH_SHORT).show();
+            if (s.equals("1")) {
+                Toast.makeText(PwdNotifyActivity.this, "修改成功，请重新登录", Toast.LENGTH_SHORT).show();
                 YApplication.exit();
-                startActivity(new Intent(PwdNotifyActivity.this,LoginActivity.class));
-            }else{
-                Toast.makeText(PwdNotifyActivity.this,"提交失败",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(PwdNotifyActivity.this, LoginActivity.class));
+            } else {
+                Toast.makeText(PwdNotifyActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
             }
         }
     }

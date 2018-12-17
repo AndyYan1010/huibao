@@ -67,7 +67,7 @@ public class YApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //        sp = getSharedPreferences("token", MODE_PRIVATE);
+        sp = getSharedPreferences("token", MODE_PRIVATE);
         //        String fname = sp.getString("fname", "");
         //        YApplication.fname = fname;
         initHuanxin();
@@ -174,6 +174,9 @@ public class YApplication extends Application {
                         public void run() {
                             ToastUtils.showToast(YApplication.this, "您已在其他设备上登录了，请重新登录。");
                             //保存用户名，用户组
+                            if (null == sp) {
+                                sp = getSharedPreferences("token", MODE_PRIVATE);
+                            }
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("fname", "");
                             editor.putString("fgroup", "");
@@ -331,7 +334,7 @@ public class YApplication extends Application {
     private void sendNotification(EMMessage message, int kind) {//kind=0 在后台，kind=1在前台
         EMTextMessageBody messageBody = (EMTextMessageBody) message.getBody();
         String messageContent = messageBody.getMessage();
-        if (messageContent.startsWith("{goodsId}")) {
+        if (messageContent.startsWith("sss{goodsId}")) {
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             messageContent = messageContent.substring(9, messageContent.length());
             //延时意图

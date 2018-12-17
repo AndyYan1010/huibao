@@ -160,7 +160,7 @@ public class CheckActivity extends AppCompatActivity {
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //                ToastUtils.showToast(CheckActivity.this,"请抄送后，转下一个人审核");
+                ToastUtils.showToast(CheckActivity.this, "请抄送后，转下一个人审核");
                 new CheckTask(et_get.getText().toString(), pfid, userid, goodsid).execute();
             }
         });

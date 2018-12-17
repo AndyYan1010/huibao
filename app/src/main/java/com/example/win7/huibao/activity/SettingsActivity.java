@@ -59,11 +59,5 @@ public class SettingsActivity extends BaseActivity {
                 startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
             }
         });
-//        btn_update.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(SettingsActivity.this,UpdateActivity.class));
-//            }
-//        });
     }
 }
