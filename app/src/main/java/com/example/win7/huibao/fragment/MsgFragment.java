@@ -39,12 +39,14 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class MsgFragment extends Fragment implements View.OnClickListener {
@@ -248,11 +250,13 @@ public class MsgFragment extends Fragment implements View.OnClickListener {
         Collections.sort(mEMConversationList, new Comparator<Msg>() {
             @Override
             public int compare(Msg o1, Msg o2) {
-                if (o1.getLastMsgTime() == 0 || o2.getLastMsgTime() == 0) {
-                    return (int) Long.MAX_VALUE;
-                } else {
-                    return (int) (o2.getLastMsgTime() - o1.getLastMsgTime());
-                }
+                return Collator.getInstance(Locale.CHINESE).compare(o1.getUsername(), o2.getUsername());
+
+                //                if (o1.getLastMsgTime() == 0 || o2.getLastMsgTime() == 0) {
+                //                    return (int) Long.MAX_VALUE;
+                //                } else {
+                //                    return (int) (o2.getLastMsgTime() - o1.getLastMsgTime());
+                //                }
             }
         });
     }

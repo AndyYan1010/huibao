@@ -115,8 +115,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             EMTextMessageBody body = (EMTextMessageBody) lastMessage.getBody();
             String message = body.getMessage();
             mEMMessageList.add(lastMessage);
-            //            if (!message.startsWith("{goodsId}")) {
-            //            }
             for (int i = 0; i < messageList.size(); i++) {
                 EMMessage emMessage = messageList.get(i);
                 EMTextMessageBody body1 = (EMTextMessageBody) emMessage.getBody();
@@ -133,12 +131,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     protected void setViews() {
-        //        list = new ArrayList<>();
-        //        adapter = new ChatAdapter();
-        //        rcv_msg.setHasFixedSize(true);
-        //        rcv_msg.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        //        rcv_msg.setAdapter(adapter);
-        ////        adapter.replaceAll(list);
         Utils.autoScrollView(ll_chat, ll_bottom);//弹出软键盘时滚动视图
         rcv_msg.setLayoutManager(new LinearLayoutManager(this));
         mChatAdapter = new MyChatAdapter(ChatActivity.this,mEMMessageList);

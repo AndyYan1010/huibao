@@ -66,12 +66,6 @@ public class TaskFragment extends Fragment {
     String group = YApplication.fgroup;
     String outeruser = "外部客户组";
 
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,31 +78,6 @@ public class TaskFragment extends Fragment {
     }
 
     protected void setTool(){
-//        toolbar = (Toolbar) view.findViewById(R.id.id_toolbar);
-//        toolbar.setTitle(R.string.task);
-//        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-//
-//        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-//
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                if(group.equals("")){
-//                    Toast.makeText(mContext,"您不在任何用户组内，请先申请权限！",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    switch (item.getItemId()) {
-//                        case R.id.action_add:
-//                            Intent intent = new Intent(mContext, AddTaskActivity.class);
-//                            intent.putExtra("taskno", "a");
-//                            intent.putExtra("interid", "0");
-//                            startActivity(intent);
-//                            break;
-//                    }
-//                }
-//                    return true;
-//            }
-//        });
         TextView tv_add = view.findViewById(R.id.tv_add);
         tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,12 +93,6 @@ public class TaskFragment extends Fragment {
             }
         });
     }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu2, menu);
-//    }
 
     protected void setViews(){
         sp_search = (Spinner)view.findViewById(R.id.sp_task_search);
@@ -438,7 +401,6 @@ public class TaskFragment extends Fragment {
                 return true;
             }
         });
-
     }
 
     class TTask extends AsyncTask<Void,String,String>{
@@ -464,21 +426,6 @@ public class TaskFragment extends Fragment {
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-//            String sql = "select FBillNo from t_BOS200000000";
-//            String sql = "select a.finterid,a.fbillno,c.FName FBase3,a.FAmount4,d.FName FBase11,e.FName FBase12,f.FName FBase13,a.FNOTE1 FNote1," +
-//                    "   b.FTime,b.FTime1,g.FName FBase4,h.FName FBase,h.F_111 jihua,i.FName yusuan,h.f_107 yusuane,b.FNOTE," +
-//                    "   j.FName FBase10,k.FName FBase1,l.FName FBase2,b.FDecimal,b.FDecimal1,b.FAmount2,b.FAmount3," +
-//                    "   b.FText,b.FText1,o.FName FBase14,p.FName FBase5,b.FCheckBox1,q.FName FBase6,b.FCheckBox2," +
-//                    "   m.FName FBase7,b.FCheckBox3,n.FName FBase8,b.FCheckBox4,r.FName FBase9,b.FCheckBox5,s.FName fuzhu,b.FDecimal2" +
-//                    "    from t_BOS200000000 a inner join t_BOS200000000Entry2 b on a.FID=b.FID " +
-//                    "   left join t_Currency c on c.FCurrencyID=a.FBase3 left join t_Item_3001 d on d.FItemID=a.FBase11" +
-//                    "   left join t_Department e on e.FItemID=a.FBase11 left join t_Item_3006 f on f.FItemID=a.FBase13" +
-//                    "   left join t_Emp g on g.FItemID=b.FBase4 left join t_Item_3007 h on h.FItemID=b.FBase left join" +
-//                    "   t_item i on i.FItemID=h.F_105 left join t_Emp j on j.FItemID=b.FBase10 left join t_ICItem k on k.FItemID=b.FBase1" +
-//                    "   left join t_MeasureUnit l on l.FMeasureUnitID=b.FBase2 left join t_Item o on o.FItemID=b.FBase14" +
-//                    "   left join t_Emp p on p.FItemID=b.FBase5 left join t_Emp q on q.FItemID=b.FBase6" +
-//                    "   left join t_Emp m on m.FItemID=b.FBase7 left join t_Emp n on n.FItemID=b.fbase8" +
-//                    "   left join t_Emp r on r.FItemID=b.FBase9 left join t_MeasureUnit s on s.FMeasureUnitID=k.FItemID";
             String sql = "select fid,fbillno from t_BOS200000000 order by fid desc";
             rpc.addProperty("FSql", sql);
             rpc.addProperty("FTable", "t_BOS200000000");
@@ -520,82 +467,15 @@ public class TaskFragment extends Fragment {
                 Iterator iter = rootElt.elementIterator("Cust"); // 获取根节点下的子节点head
 
                 // 遍历head节点
-//                List<TaskEntry> entryList = new ArrayList<>();
                 while (iter.hasNext()) {
                     Element recordEle = (Element) iter.next();
                     Tasks tasks = new Tasks();
                     String finterid = recordEle.elementTextTrim("fid");
                     String fbillno = recordEle.elementTextTrim("fbillno");
-//                    String FBase3 = recordEle.elementTextTrim("FBase3");
-//                    String FAmount4 = recordEle.elementTextTrim("FAmount4");
-//                    String FBase11 = recordEle.elementTextTrim("FBase11");
-//                    String FBase12 = recordEle.elementTextTrim("FBase12");
-//                    String FBase13 = recordEle.elementTextTrim("FBase13");
-//                    String FNote1 = recordEle.elementTextTrim("FNote1");
-//                    TaskEntry entry = new TaskEntry();
-//                    String FTime = recordEle.elementTextTrim("FTime");
-//                    String FTime1 = recordEle.elementTextTrim("FTime1");
-//                    String FBase4 = recordEle.elementTextTrim("FBase4");
-//                    String FBase = recordEle.elementTextTrim("FBase");
-//                    String FNOTE = recordEle.elementTextTrim("FNOTE");
-//                    String FBase10 = recordEle.elementTextTrim("FBase10");
-//                    String FBase1 = recordEle.elementTextTrim("FBase1");
-//                    String FBase2 = recordEle.elementTextTrim("FBase2");
-//                    String FDecimal = recordEle.elementTextTrim("FDecimal");
-//                    String FDecimal1 = recordEle.elementTextTrim("FDecimal1");
-//                    String FAmount2 = recordEle.elementTextTrim("FAmount2");
-//                    String FAmount3 = recordEle.elementTextTrim("FAmount3");
-//                    String FText = recordEle.elementTextTrim("FText");
-//                    String FText1 = recordEle.elementTextTrim("FText1");
-//                    String FBase14 = recordEle.elementTextTrim("FBase14");
-//                    String FBase5 = recordEle.elementTextTrim("FBase5");
-//                    String FBase6 = recordEle.elementTextTrim("FBase6");
-//                    String FBase7 = recordEle.elementTextTrim("FBase7");
-//                    String FBase8 = recordEle.elementTextTrim("FBase8");
-//                    String FBase9 = recordEle.elementTextTrim("FBase9");
-//                    String FCheckBox1 = recordEle.elementTextTrim("FCheckBox1");
-//                    String FCheckBox2 = recordEle.elementTextTrim("FCheckBox2");
-//                    String FCheckBox3 = recordEle.elementTextTrim("FCheckBox3");
-//                    String FCheckBox4 = recordEle.elementTextTrim("FCheckBox4");
-//                    String FCheckBox5 = recordEle.elementTextTrim("FCheckBox5");
-//                    entry.setFTime(FTime);
-//                    entry.setFTime1(FTime1);
-//                    entry.setFBase4(FBase4);
-//                    entry.setFBase(FBase);
-//                    entry.setFNOTE(FNOTE);
-//                    entry.setFBase10(FBase10);
-//                    entry.setFBase1(FBase1);
-//                    entry.setFBase2(FBase2);
-//                    entry.setFDecimal(Double.parseDouble(FDecimal));
-//                    entry.setFDecimal1(Double.parseDouble(FDecimal1));
-//                    entry.setFAmount2(Double.parseDouble(FAmount2));
-//                    entry.setFAmount3(Double.parseDouble(FAmount3));
-//                    entry.setFText(FText);
-//                    entry.setFText1(FText1);
-//                    entry.setFBase14(FBase14);
-//                    entry.setFBase5(FBase5);
-//                    entry.setFBase6(FBase6);
-//                    entry.setFBase7(FBase7);
-//                    entry.setFBase8(FBase8);
-//                    entry.setFBase9(FBase9);
-//                    entry.setFCheckBox1(Integer.parseInt(FCheckBox1));
-//                    entry.setFCheckBox2(Integer.parseInt(FCheckBox2));
-//                    entry.setFCheckBox3(Integer.parseInt(FCheckBox3));
-//                    entry.setFCheckBox4(Integer.parseInt(FCheckBox4));
-//                    entry.setFCheckBox5(Integer.parseInt(FCheckBox5));
-//                    entryList.add(entry);
                     tasks.setFinterid(finterid);
                     tasks.setFbillno(fbillno);
                     list.add(tasks);
                 }
-
-//                tasks.setFBase3(FBase3);
-//                tasks.setFAmount4(Double.parseDouble(FAmount4));
-//                tasks.setFBase11(FBase11);
-//                tasks.setFBase12(FBase12);
-//                tasks.setFBase13(FBase13);
-//                tasks.setFNote1(FNote1);
-//                tasks.setEntryList(entryList);
             } catch (Exception e) {
                     e.printStackTrace();
             }

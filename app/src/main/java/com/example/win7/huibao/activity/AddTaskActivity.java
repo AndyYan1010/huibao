@@ -111,6 +111,7 @@ public class AddTaskActivity extends BaseActivity {
     private MyRecAdapter      mMyAdapter;
     private List<List>   mSumBitmapList = new ArrayList();//记录总的bitmaplist的集合
     private List<String> mSumBtUrlList  = new ArrayList();//记录总的图片在服务器地址的集合
+    private boolean      isSendPicSuc   = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -618,6 +619,7 @@ public class AddTaskActivity extends BaseActivity {
                             } else {
                                 //子线程运行
                                 final int finalI = i;
+                                isSendPicSuc = false;
                                 Glide.with(AddTaskActivity.this).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -937,6 +939,12 @@ public class AddTaskActivity extends BaseActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!isSendPicSuc) {
+                    ToastUtils.showToast(AddTaskActivity.this, "正在提交图片，请稍后...");
+                    isSendPicSuc = true;
+                    return;
+                }
+
                 if (zuzhi == null) {
                     Toast.makeText(AddTaskActivity.this, "请选择组织机构", Toast.LENGTH_SHORT).show();
                     return;
@@ -1102,7 +1110,8 @@ public class AddTaskActivity extends BaseActivity {
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-            rpc.addProperty("FSql", "select a.fname username,a.fitemid responid,b.fname depart,b.fitemid departid,c.FName company,c.fitemid companyid from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 where d.FName='" + YApplication.username + "'");
+            rpc.addProperty("FSql", "select a.fname username,a.fitemid responid,b.fname depart,b.fitemid departid,c.FName company,c.fitemid companyid, c.F_101 detail,c.f_102 lately,e.f_102 zhidu from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=a.f_102 left join t_Item_3006 e on e.F_101=b.FItemID where FDescription='" + YApplication.fname + "'");
+            //            rpc.addProperty("FSql", "select a.fname username,a.fitemid responid,b.fname depart,b.fitemid departid,c.FName company,c.fitemid companyid from t_User d inner join  t_Emp a on d.FEmpID=a.fitemid left join t_Department b on a.FDepartmentID=b.FItemID left join t_Item_3001 c on c.FItemID=b.f_102 where d.FName='" + YApplication.username + "'");
             rpc.addProperty("FTable", "t_user");
 
             // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
@@ -2415,7 +2424,7 @@ public class AddTaskActivity extends BaseActivity {
             zhidu1 = list.get(0).get("zhiduid");
             zhidu2 = list.get(0).get("fnote1");
             contentid = list.get(0).get("neirongid");
-            wyid=list.get(0).get("wangyinid");
+            wyid = list.get(0).get("wangyinid");
             content = list.get(0).get("neirong");
             respon = list.get(0).get("responid");
             zhidan = list.get(0).get("zhidanid");
@@ -3030,6 +3039,7 @@ public class AddTaskActivity extends BaseActivity {
             } else {
                 ToastUtils.showToast(AddTaskActivity.this, "图片" + (n + 1) + "提交失败");
             }
+            isSendPicSuc = true;
             if (MySendProcess == mBitmapList.size() - htUrlnum) {//说明要提交的图片都提交了
                 ProgressDialogUtil.hideDialog();
                 //将总的图片地址中对应的url，换置。

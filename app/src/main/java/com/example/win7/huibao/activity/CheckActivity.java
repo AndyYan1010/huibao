@@ -265,15 +265,15 @@ public class CheckActivity extends AppCompatActivity {
                 return result;
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return "";
             }
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progress.dismiss();
             if (s.equals("成功")) {
-                progress.dismiss();
                 Toast.makeText(CheckActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
@@ -304,7 +304,7 @@ public class CheckActivity extends AppCompatActivity {
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
             // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-            String sql = "select a.fitemid from t_Emp a left join t_user b on a.fitemid=b.fempid where b.fname='" + YApplication.fname + "'";
+            String sql = "select a.fitemid from t_Emp a left join t_user b on a.fitemid=b.fempid where b.fname='" + YApplication.username + "'";
             rpc.addProperty("FSql", sql);
             rpc.addProperty("FTable", "t_user");
 
