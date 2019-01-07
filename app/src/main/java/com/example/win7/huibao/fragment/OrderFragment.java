@@ -332,7 +332,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
             // 指定WebService的命名空间和调用的方法名
             SoapObject rpc = new SoapObject(nameSpace, methodName);
 
-            rpc.addProperty("FSql", sql);
+            rpc.addProperty("FSql", sql);//sql:select fbillno from t_bos200000011
             rpc.addProperty("FTable", "t_BOS200000011");
 
             // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本

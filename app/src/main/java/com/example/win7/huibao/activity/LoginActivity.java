@@ -181,7 +181,7 @@ public class LoginActivity extends BaseActivity {
                     String result = object.getProperty(0).toString();//0销售-总部/X001   0销售-总部
                     if (result.substring(0, 1).equals("0")) {
                         YApplication.fname = name;
-                        YApplication.fgroup = result.substring(1);
+                        YApplication.fgroup = result.substring(2);
                         //                        YApplication.fgroup = result.replace("0", "");
                         return "0";
                     } else if (result.equals("1")) {
